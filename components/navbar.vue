@@ -1,32 +1,13 @@
 <template>
   <div>
-    <MenuNavbar ref="menu"></MenuNavbar>
-    <v-app-bar id="navbar" color="transparent" absolute class="isolate">
-      <nuxt-link to="/">
-        <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: clamp(10em, 13vw, 13.414375em)">
-      </nuxt-link>
-
-      <aside class="middle tcap deletemobile">
-        <a
-          v-for="(item, i) in dataNavbar" :key="i"
-          :class="{active: item.to === $route.path}"
-          @click="$router.push(localePath(item.to))">
-          {{item.name}}
-        </a>
-      </aside>
-
-      <aside class="right">
-        <v-btn class="btn">
-          <span>${{user.balance}}</span>
-        </v-btn>
-        
-        <v-btn v-show="!isLogged" class="btn" @click="$store.commit('signIn')">Connect wallet</v-btn>
-        <v-btn v-show="isLogged" class="btn openMenuLogin">
-          <span>{{user.accountId}}</span>
-          <v-icon>mdi-chevron-down</v-icon>
-        </v-btn>
-      </aside>
-    </v-app-bar>
+    <v-toolbar id="navbar" color="transparent" absolute class="isolate" min-height="100%" width="var(--w-navbar)">
+      <v-btn
+        v-for="(item, i) in dataNavbar" :key="i" color="transparent" :ripple="false"
+        @click.prevent="">
+        <img :src="item.img" :alt="`${item.name} icon`" style="--w: 55px">
+        <span>{{item.name}}</span>
+      </v-btn>
+    </v-toolbar>
   </div>
 </template>
 
@@ -40,24 +21,16 @@ export default {
     return {
       dataNavbar: [
         {
-          name: "portfolio",
-          to: ""
+          img: require("~/assets/sources/icons/menu.svg"),
+          name: "menu",
         },
         {
-          name: "swap",
-          to: ""
+          img: require("~/assets/sources/icons/twitter.svg"),
+          name: "twitter",
         },
         {
-          name: "farm",
-          to: ""
-        },
-        {
-          name: "pools",
-          to: ""
-        },
-        {
-          name: "xhpot",
-          to: ""
+          img: require("~/assets/sources/icons/instagram.svg"),
+          name: "instagram",
         },
       ],
     };

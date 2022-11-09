@@ -3,6 +3,7 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #home {
   @include parent;
-  padding-inline: var(--margin-global);
+  padding-left: var(--w-navbar);
   gap: 4em;
+  height: 100%;
 }

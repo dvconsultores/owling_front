@@ -31,8 +31,6 @@ export default {
       // <!-- fonts -->
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-      //   <!-- league gothic -->
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=League+Gothic&display=swap' },
     ],
     script: [
       // {

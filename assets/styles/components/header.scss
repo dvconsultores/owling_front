@@ -1,0 +1,14 @@
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+// // // header // // // 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#header {
+  .v-toolbar__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    @include parent;
+    padding-inline: var(--margin-global);
+    height: var(--h-header) !important;
+  }
+}

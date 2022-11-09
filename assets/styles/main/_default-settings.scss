@@ -6,18 +6,14 @@
 /* // // default settings // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 @font-face {
-  font-family: 'Lekton';
-  src: url(~/static/fonts/Lekton-400.ttf) format('truetype'),
-      url(~/static/fonts/Lekton-Bold.ttf) format('truetype'),
-      url(~/static/fonts/Lekton-Italic.ttf) format('truetype'),
-      url(~/static/fonts/Lekton-Regular.ttf) format('truetype');
+  font-family: 'Pixelmix';
+  src: url(~/static/fonts/pixelmix_bold.ttf) format('truetype'),
+      url(~/static/fonts/pixelmix.ttf) format('truetype');
 }
-:is(html, body) {
-  font-size: 16px;
+html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--h-navbar) + 2em);
+  scroll-padding-top: calc(var(--h-header) + 2em);
 }
-:is(#app, #layout, #error, #login) {font-family: var(--font1)}
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 /* // // delete-config-default-vuetify // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
@@ -59,17 +55,14 @@ div.v-card::before {background: transparent !important}
     width: 8px;
     height: 8px;
     background: var(--clr-bg-scroll);
-    // &:hover {background: var(--clr-bg-scroll)}
+    border: 1.5px solid var(--accent);
   }
   ::-webkit-scrollbar-thumb {
-    border-radius: 15px;
+    border: 1.5px solid var(--accent);
     background: var(--clr-scroll);
   }
   body {
-    &::-webkit-scrollbar {
-      width: 10px;
-      height: 10px
-    }
+    &::-webkit-scrollbar {display: none}
   }
 }
 
@@ -172,6 +165,7 @@ body {background: var(--bg-ap)}
 .v-input .v-input__slot *, .v-data-footer__select, .v-data-footer__pagination, .v-data-footer__icons::before):not(.not_typography, .not) {
   font-weight: var(--fw);
 }
+* {font-family: var(--font1)}
 img:not(.not_typography, .not) {font-family: var(--font2)}
 a:not(.not_typography, .not) {text-decoration: none}
 button:not(.not_typography, .not) {&::first-letter, & ::first-letter {text-transform: uppercase}}

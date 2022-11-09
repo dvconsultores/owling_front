@@ -1,5 +1,23 @@
-<svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="1.5" y1="1.5" x2="16.375" y2="1.5" stroke="black" stroke-width="3" stroke-linecap="round"/>
-<line x1="1.5" y1="8" x2="16.375" y2="8" stroke="black" stroke-width="3" stroke-linecap="round"/>
-<line x1="1.5" y1="14.5" x2="16.375" y2="14.5" stroke="black" stroke-width="3" stroke-linecap="round"/>
+<svg width="61" height="52" viewBox="0 0 61 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M23.7059 2.29413H2.29413V4.58824H2.29413V6.11766V12.2353V24.4706L2.29413 47.4118L3.82354 47.4118V49.7059H58.1177L58.1177 47.4118L58.1177 16.0588L58.1177 12.2353H54.2941V6.11766H26V4.58824H23.7059V2.29413Z" fill="#FFC28C"/>
+<rect x="7.64703" y="13.7647" width="16.0588" height="2.29412" fill="black"/>
+<rect x="2.29407" width="21.4118" height="2.29412" fill="black"/>
+<rect x="26" y="9.94116" width="32.1176" height="2.29412" fill="black"/>
+<rect x="3.82349" y="49.7059" width="54.2941" height="2.29412" fill="black"/>
+<rect x="23.7059" y="11.4706" width="2.29412" height="2.29412" fill="black"/>
+<rect x="23.7059" y="2.29413" width="2.29412" height="2.29412" fill="black"/>
+<rect x="54.2941" y="6.11765" width="2.29412" height="3.82353" fill="black"/>
+<rect x="26" y="3.82355" width="28.2941" height="2.29412" fill="black"/>
+<rect x="1.52942" y="47.4118" width="2.29412" height="2.29412" fill="black"/>
+<rect x="6.11761" y="16.0588" width="2.29412" height="35.9412" fill="black"/>
+<rect y="2.29413" width="2.29412" height="45.8824" fill="black"/>
+<rect x="58.1177" y="12.2353" width="2.29412" height="37.4706" fill="black"/>
+<rect x="2.29413" y="2.29413" width="1.52941" height="45.1176" fill="white"/>
+<rect x="23.7059" y="2.29413" width="1.52941" height="19.8824" transform="rotate(90 23.7059 2.29413)" fill="white"/>
+<rect x="23.7059" y="16.0588" width="1.52941" height="13.7647" transform="rotate(90 23.7059 16.0588)" fill="white"/>
+<rect x="58.1177" y="12.2353" width="1.52941" height="32.1176" transform="rotate(90 58.1177 12.2353)" fill="white"/>
+<rect x="54.2941" y="6.11765" width="1.52941" height="28.2941" transform="rotate(90 54.2941 6.11765)" fill="white"/>
+<rect x="26" y="4.58826" width="2.29412" height="2.29412" transform="rotate(90 26 4.58826)" fill="white"/>
+<rect x="26" y="13.7647" width="2.29412" height="2.29412" transform="rotate(90 26 13.7647)" fill="white"/>
+<rect x="8.41174" y="16.0588" width="1.52941" height="33.6471" fill="white"/>
 </svg>
