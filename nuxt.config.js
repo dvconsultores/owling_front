@@ -12,7 +12,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - global-dv-nuxt2',
+    titleTemplate: '%s - owling',
     title: 'Home',
     htmlAttrs: {
       lang: 'en',
@@ -145,7 +145,7 @@ export default {
 
   // Router property -  https://nuxtjs.org/docs/2.x/features/file-system-routing#the-router-property
   router: {
-    base: '/global-dv-nuxt2/',
+    base: '/owling/',
     // middleware: ['route-validator'],
   },
 
@@ -156,7 +156,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    publicPath: '/global-dv-nuxt2/',
+    publicPath: '/owling/',
     plugins: [
       new webpack.ProvidePlugin({
         // global modules
