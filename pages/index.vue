@@ -53,7 +53,7 @@
     >
       <template #content>
         <div class="divcol center fill tcenter" style="gap: 10px">
-          <h4 class="p">We invite you to fill in a form</h4>
+          <h4 class="p" style="cursor: default">We invite you to fill in a form</h4>
           <v-btn class="btn" style="--w: 167px">next</v-btn>
         </div>
       </template>
