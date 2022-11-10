@@ -6,7 +6,7 @@
     flex-direction: column;
     height: 100% !important;
     padding: 0;
-    gap: 10px;
+    gap: 30px;
     .v-btn {
       padding: 2px;
       box-shadow: none !important;
@@ -14,6 +14,7 @@
       height: max-content !important;
       &__content {
         flex-direction: column;
+        gap: 10px;
       }
     }
   }

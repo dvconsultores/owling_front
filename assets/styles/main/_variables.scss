@@ -12,11 +12,8 @@
   --error: #ff4081;
   --warning: #FFC260;
   --success: #3CD4A0;
-  --clr-gradient: linear-gradient(89.95deg, #0317C5 1.67%, #0317C5 98.63%);
+  --clr-gradient: linear-gradient(90deg, #5803C5 0%, #6B79F7 100%);
   --c: var(--clr);
-  --stroke: var(--stroke-size) var(--stroke-color);
-  --stroke-size: none;
-  --stroke-color: none;
   /* // // themes // // */
   &.light {
     // default color
@@ -84,20 +81,6 @@ $navigation-drawer-mini-variant-width:     96px!important;
 $body-bg: var(--bg-app) !default;
 $content-padding:                           24px;
 $sombra-filter: drop-shadow(0px 4px 1px rgba(0, 0, 0, 0.3));
-$clip-path: polygon(
-  0% var(--c-size),
-  var(--c-size) var(--c-size),
-  var(--c-size) 0%,
-  calc(100% - var(--c-size)) 0%,
-  calc(100% - var(--c-size)) var(--c-size),
-  100% var(--c-size),
-  100% calc(100% - var(--c-size)),
-  calc(100% - var(--c-size)) calc(100% - var(--c-size)),
-  calc(100% - var(--c-size)) 100%,
-  var(--c-size) 100%,
-  var(--c-size) calc(100% - var(--c-size)),
-  0% calc(100% - var(--c-size))
-);
 
 //========== Colors ==========//
 $primary:           #D9D0B1;
@@ -137,6 +120,42 @@ $border-card: 4vmax;
 $button-shadow: 0px 3px 11px 0px #E8EAFC, 0 3px 3px -2px #B2B2B21A, 0 1px 8px 0 #9A9A9A1A;
 $sombra-btn: 0px 4px 4px rgba(0, 0, 0, 0.25);
 $border-btn: 2vmax;
+
+//========== boxes ==========//
+$clip-path: polygon(
+  0% var(--c-size),
+  var(--c-size) var(--c-size),
+  var(--c-size) 0%,
+  calc(100% - var(--c-size)) 0%,
+  calc(100% - var(--c-size)) var(--c-size),
+  100% var(--c-size),
+  100% calc(100% - var(--c-size)),
+  calc(100% - var(--c-size)) calc(100% - var(--c-size)),
+  calc(100% - var(--c-size)) 100%,
+  var(--c-size) 100%,
+  var(--c-size) calc(100% - var(--c-size)),
+  0% calc(100% - var(--c-size))
+);
+$clip-path-top: polygon(
+  0% var(--c-size),
+  var(--c-size) var(--c-size),
+  var(--c-size) 0%,
+  calc(100% - var(--c-size)) 0%,
+  calc(100% - var(--c-size)) var(--c-size),
+  100% var(--c-size),
+  100% 100%,
+  0% 100%
+);
+$clip-path-bottom: polygon(
+  0% 0%,
+  100% 0%,
+  100% calc(100% - var(--c-size)),
+  calc(100% - var(--c-size)) calc(100% - var(--c-size)),
+  calc(100% - var(--c-size)) 100%,
+  var(--c-size) 100%,
+  var(--c-size) calc(100% - var(--c-size)),
+  0% calc(100% - var(--c-size))
+);
 
 //========== Hover ==========//
 $ease: cubic-bezier(0.23, 1, 0.32, 1);
@@ -183,6 +202,7 @@ $skew-left: skewX(-12deg) translateX(-1px);
 @mixin pixelBorder() {
   --c-size: 4.5px;
   
+  padding: var(--c-size);
   position: relative;
   isolation: isolate;
   clip-path: $clip-path;
@@ -204,7 +224,7 @@ $skew-left: skewX(-12deg) translateX(-1px);
   // body
   &::after {
     inset: var(--c-size);
-    background-color: var(--clr-btn);
+    background-color: var(--bg);
   }
 }
 
@@ -230,6 +250,7 @@ $skew-left: skewX(-12deg) translateX(-1px);
   --lh: 1;
   --f: initial;
   --t: initial;
+  --stroke: .4px;
 
   background: var(--bg) !important;
   color: var(--c) !important;
@@ -245,6 +266,7 @@ $skew-left: skewX(-12deg) translateX(-1px);
   border: var(--b);
   transform: var(--t);
   filter: var(--f);
+
   @include pixelBorder;
 
   // body
@@ -276,7 +298,7 @@ $skew-left: skewX(-12deg) translateX(-1px);
   --bg: var(--clr-card);
   --c: var(--clr);
   --b: initial;
-  --p: 1em;
+  --p: 0;
   --f: initial;
   --t: initial;
 
@@ -292,7 +314,9 @@ $skew-left: skewX(-12deg) translateX(-1px);
   border: var(--b) !important;
   transform: var(--t);
   filter: var(--f);
+  
   @include pixelBorder;
+  --c-size: 6px;
 }
 
 //========== other global vars ==========//

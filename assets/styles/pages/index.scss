@@ -1,3 +1,6 @@
+// window imports //
+@import '~/assets/styles/components/windows/about.scss';
+
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 // // // home // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
@@ -6,4 +9,9 @@
   padding-left: var(--w-navbar);
   gap: 4em;
   height: 100%;
+  position: relative;
+  isolation: isolate;
+  z-index: 10;
+  pointer-events: none;
+  * {pointer-events: all}
 }

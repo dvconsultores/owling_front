@@ -1,0 +1,50 @@
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+// // // custome window // // // 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+.custome-window {
+  --h-toolbar: 46px;
+
+  position: absolute;
+  visibility: hidden;
+  
+  @include card;
+  
+  &.show {
+    visibility: visible;
+    @include animation(.2s $ease-return) {
+      from {
+        transform: scale(.5);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  }
+
+  &--header {
+    background: var(--clr-gradient) !important;
+    border-bottom: var(--c-size) solid var(--accent);
+    min-height: var(--h-toolbar);
+    max-height: var(--h-toolbar);
+    clip-path: $clip-path-top;
+    
+    .v-toolbar__content {
+      min-height: inherit;
+      max-height: inherit;
+      padding-top: 0;
+      
+      h2 {
+        --c: #fff;
+        cursor: default;
+      }
+    }
+  }
+
+  &--content {
+    overflow-y: auto;
+    height: calc(100% - var(--h-toolbar));
+    clip-path: $clip-path-bottom;
+  }
+}

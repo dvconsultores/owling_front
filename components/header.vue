@@ -20,7 +20,7 @@
               </v-btn>
             </template>
 
-            <v-list class="card" color="var(--secondary)">
+            <v-list class="card" style="--bg: var(--secondary)">
               <v-list-item-group active-class="activeClass">
                 <v-list-item
                   v-for="(item,i) in dataMenuLogin" :key="i"
