@@ -50,20 +50,24 @@ div.v-card::before {background: transparent !important}
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 /* // // scrollbar // // */ 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-@include reducedMotion {
+.custome-window {
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: calc(var(--c-size, 0) + 15px);
+    height: calc(var(--c-size, 0) + 15px);
     background: var(--clr-bg-scroll);
-    border: 1.5px solid var(--accent);
+    border: 2px solid var(--accent);
   }
   ::-webkit-scrollbar-thumb {
-    border: 1.5px solid var(--accent);
+    border: 2px solid var(--accent);
     background: var(--clr-scroll);
   }
-  body {
-    &::-webkit-scrollbar {display: none}
+  ::-webkit-scrollbar-button {
+    background-color: green;
   }
+  ::-webkit-scrollbar-track {background-color: blue;}
+}
+body {
+  &::-webkit-scrollbar {display: none}
 }
 
 
@@ -194,9 +198,10 @@ h3:not(.not_typography, .not) {
 }
 h4:not(.not_typography, .not) {
   --fw: 400;
+  --stroke: .2px;
 
   font-family: var(--font1);
-  font-size: var(--fs, 1.5em);
+  font-size: var(--fs, 18px);
   letter-spacing: 0.03em;
 }
 h6:not(.not_typography, .not) {
@@ -415,7 +420,6 @@ img:not(.not_html, .not) {
   --c: var(--clr);
   --lh: 1;
   --ls: normal;
-  --tt: none;
   --t: none;
   --f: none;
   --ml: none;
@@ -427,7 +431,7 @@ img:not(.not_html, .not) {
   transform: var(--t);
   filter: var(--f);
   & :is(span, img, i) {
-    text-transform: var(--tt);
+    text-transform: var(--tt, initial);
     letter-spacing: var(--ls);
     line-height: var(--lh);
     color: var(--c);

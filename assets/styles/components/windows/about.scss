@@ -2,8 +2,9 @@
 // // // about // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #about {
-  left: 0;
-  right: 0;
+  left: 20%;
+  top: 0;
+  bottom: 0;
   margin: auto;
   
   .custome-window {
@@ -33,7 +34,6 @@
       justify-content: center;
       // &::-webkit-scrollbar {display: none}
 
-      h4 {--stroke: .2px; --fs: 18px}
       p {--fs: 14px}
     }
   }

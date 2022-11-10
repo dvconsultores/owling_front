@@ -2,9 +2,7 @@
 // // // custome window // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 .custome-window {
-  --h-toolbar: 46px;
-
-  position: absolute;
+  position: absolute !important;
   visibility: hidden;
   
   @include card;

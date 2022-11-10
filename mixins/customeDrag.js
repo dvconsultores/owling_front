@@ -1,7 +1,10 @@
 export default {
   methods: {
     customeDrag(event) {
-      const target = event.currentTarget.parentNode;
+      // select target
+      const target = event.currentTarget.className.includes("custome-window v-sheet")
+        ? event.currentTarget : event.currentTarget.parentNode;
+      // set initial state
       let offset = [0,0], isDown = false;
 
       isDown = true;
@@ -24,7 +27,7 @@ export default {
           positionY = typeEvent(e).clientY + offset[0],
           positionX = typeEvent(e).clientX + offset[1],
           rangeYStart = 0, rangeYEnd = container.getBoundingClientRect().height - target.getBoundingClientRect().height,
-          rangeXStart = 0, rangeXEnd = container.getBoundingClientRect().width - target.getBoundingClientRect().width;
+          rangeXStart = 55, rangeXEnd = container.getBoundingClientRect().width - target.getBoundingClientRect().width;
 
         if (e.type.includes('mouse')) e.preventDefault();
         if (isDown && positionY > rangeYStart && positionY < rangeYEnd) {

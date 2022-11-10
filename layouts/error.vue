@@ -6,7 +6,7 @@
           <!-- content -->
           <h1 class="p bold">{{error.statusCode === 404 ? 404 : 'Error'}}</h1>
           <span class="h5_em bold">{{error.statusCode === 404 ? $t('pageNotFound') : $t('otherError')}}</span>
-          <v-btn :to="localePath('/')" class=" btn h7_em bold">{{$t('buttonTitle')}}</v-btn>
+          <v-btn :to="localePath('/')" class=" btn h7_em bold" style="--c-size: 7px; --p: 25px">{{$t('buttonTitle')}}</v-btn>
         </v-col>
       </v-row>
     </v-container>

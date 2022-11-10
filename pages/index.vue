@@ -2,7 +2,8 @@
   <div id="home" class="divcol">
     <Windows
       id="about" bg="var(--secondary)" padding="30px" width="539px" height="420px"
-      @customeDrag="customeDrag">
+      @customeDrag="customeDrag"
+    >
       <template #header>
         <div class="center" style="gap: 5px">
           <v-btn
@@ -27,6 +28,36 @@
         </v-window>
       </template>
     </Windows>
+
+
+    <Windows
+      bg="var(--secondary)" width="326px" height="max-content" padding="30px" styles="right: 0; top: 10%"
+      @customeDrag="customeDrag"
+    >
+      <template #header>
+        <h2 class="p tup align">new form</h2>
+      </template>
+
+      <template #content>
+        <div class="divcol center" style="gap: 20px">
+          <img src="~/assets/sources/images/form-img.png" alt="new form image" style="--w: 169px">
+          <v-btn class="btn" style="--w: 164.19px">create</v-btn>
+        </div>
+      </template>
+    </Windows>
+
+
+    <Windows
+      width="max-content" height="151px" styles="right: 0; bottom: 10%"
+      @customeDrag="customeDrag"
+    >
+      <template #content>
+        <div class="divcol center fill tcenter" style="gap: 10px">
+          <h4 class="p">We invite you to fill in a form</h4>
+          <v-btn class="btn" style="--w: 167px">next</v-btn>
+        </div>
+      </template>
+    </Windows>
   </div>
 </template>
 
@@ -39,6 +70,7 @@ export default {
   mixins: [computeds, customeDrag],
   data() {
     return {
+      zIndex: 1,
       windowAbout: 0,
       dataAbout: [
         {
