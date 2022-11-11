@@ -2,6 +2,8 @@
 // // // navbar // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #navbar {
+  transform: translateX(calc(var(--w-navbar) * -1));
+  z-index: -1;
   .v-toolbar__content {
     flex-direction: column;
     height: 100% !important;

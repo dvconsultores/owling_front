@@ -38,11 +38,29 @@
         cursor: default;
       }
     }
+    
+    .v-btn {
+      background-color: transparent !important;
+      box-shadow: none !important;
+      min-width: max-content !important;
+      width: max-content !important;
+      padding: 0 !important;
+    }
   }
 
   &--content {
     overflow-y: auto;
     height: calc(100% - var(--h-toolbar));
+    display: flex;
+    flex-direction: column;
     clip-path: $clip-path-bottom;
+    > .v-form, > .v-sheet:not(.v-list),
+    > .v-window:not(#about .v-window) {
+      background-color: var(--secondary) !important;
+      border: 2px solid var(--accent) !important;
+      padding: 20px;
+      overflow: auto;
+      height: 100%;
+    }
   }
 }

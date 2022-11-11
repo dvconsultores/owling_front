@@ -17,6 +17,27 @@
 
 ///////////////////// global ///////////////////////
 
+//- menu -//
+.menuList {
+  .v-list-item {
+    margin-inline: var(--c-size);
+    gap: 20px;
+    &:not(:last-of-type) {
+      position: relative;
+      &::after {
+        content: "";
+        @include absolute(0,auto,0,0);
+        width: calc(100% - (var(--c-size) * 2));
+        min-height: 3px;
+        height: 3px;
+        background-color: #fff;
+        box-shadow: inset 0px 1px 0px hsl(0 0% 0% / .5);
+      }
+    }
+  }
+}
+
+
 //- drawer -//  --> under testing
 .v-navigation-drawer:not(.not_vuetify, .not) {
   --w-drawer: 300px;

@@ -1,0 +1,34 @@
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+// // // charts // // // 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+.charts {
+  &-controls {
+    background-color: transparent;
+    .v-btn {
+      background-color: transparent !important;
+      &[class*="active"] {
+        background-color: rgba(88, 3, 197, 0.25) !important
+      }
+    }
+  }
+
+  .apexcharts-canvas {
+    [class*="tooltip"] {
+      padding: 8px;
+      border-radius: 5px;
+      background-color: rgba(88, 3, 197) !important;
+      border: none !important;
+      box-shadow: none !important;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      * {--c: #fff}
+      [class*="title"] {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important
+      }
+    }
+    .apexcharts-xaxistooltip {display: none !important}
+    .apexcharts-yaxistooltip {display: none !important}
+  }
+}

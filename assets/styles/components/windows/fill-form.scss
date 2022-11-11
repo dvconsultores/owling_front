@@ -1,0 +1,20 @@
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+// // // fill form // // // 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#fillForm {
+  .custome-window:not(#mainWindow) {
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  #fillFormWindow ::-webkit-scrollbar {display: none}
+
+  #mintNftWindow {
+    .v-btn {
+      --w: 126px;
+      --h: 34px;
+      --min-h: 34px;
+    }
+  }
+}

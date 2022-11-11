@@ -4,7 +4,7 @@
     class="custome-window"
     :class="{show: show}"
     :style="`--w: ${width}; --h: ${height}; ${$slots.header ? '--h-toolbar: 46px' : undefined}; ${styles}`"
-    @mousedown="increaseIndex($event)" @touchstart="increaseIndex($event)"
+    @mousedown="$store.commit('increaseIndex', $event)" @touchstart="$store.commit('increaseIndex', $event)"
   >
     <v-toolbar
       v-if="$slots.header"
@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: "AboutComponent",
+  name: "WindowComponent",
   props: {
     show: {
       type: Boolean,
@@ -60,13 +60,7 @@ export default {
       target.addEventListener("touchstart", (event) => this.$emit('customeDrag', event))
     }
   },
-  methods: {
-    increaseIndex(event) {
-      event.currentTarget.style.zIndex = this.$parent.zIndex
-      this.$parent.zIndex++
-    }
-  }
 };
 </script>
 
-<style src="~/assets/styles/components/windows/windows.scss" lang="scss" />
+<style src="~/assets/styles/components/windows/window.scss" lang="scss" />

@@ -1,0 +1,55 @@
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+// // // new form // // // 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
+#newForm {
+  --margin-input: calc(14px + 8px * 2);
+  .custome-window:not(#mainWindow, #statsFormComplement) {
+    left: 0;
+    right: 0;
+    margin: auto;
+    .custome-window--content {
+      .v-form, .v-sheet:not(.v-list) {
+        .v-btn {
+          --h: 52px;
+        }
+      }
+    }
+  }
+
+  .container-checkboxes {
+    .v-input {  
+      width: max-content;
+      .v-input__append-inner {margin: auto !important}
+    }
+  }
+
+  #zeroForm {
+    .v-file-input {
+      .v-input__control {
+        margin-right: 20px;
+      }
+      .v-input__append-outer {
+        margin: 0 !important;
+        img {
+          margin-bottom: var(--margin-input);
+        }
+      }
+    }
+  }
+
+  #editForm {
+    .container-edit {
+      & > *:not(.v-input) {margin-bottom: var(--margin-input)}
+      .v-btn, .v-input {--h: 36px !important; --min-h: none !important}
+      .v-btn {
+        --fs: 14px;
+        max-width: 126px !important
+      }
+    }
+  }
+}
+
+// modals
+.v-dialog .custome-window {
+  visibility: visible !important;
+}

@@ -3,7 +3,6 @@
     <Alerts ref="alerts"></Alerts>
     <Header ref="navbar" />
     <v-main :class="wrapperSpace?'with':'without'" class="parent">
-      <Navbar ref="navbar" />
       <nuxt-child />
     </v-main>
     <Footer ref="footer"></Footer>

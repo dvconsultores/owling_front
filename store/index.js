@@ -15,6 +15,7 @@ export const state = () => ({
     balance: 0,
     dataSocial: [],
   },
+  zIndex: 1,
 });
 
 export const mutations = {
@@ -26,6 +27,14 @@ export const mutations = {
     // overlay
     if (theme === "light") { state.overlay.opacity = 0.2; state.overlay.color = "white" }
     else { state.overlay.opacity = 0.5; state.overlay.color = "black" }
+  },
+  increaseIndex(state, event) {
+    if (event?.currentTarget) {
+      event.currentTarget.style.zIndex = state.zIndex
+    } else {
+      event.style.zIndex = state.zIndex
+    }
+    state.zIndex++
   },
   setData(state, data) {
     if (window.$nuxt.$wallet.isSignedIn() && typeof data === 'string') {
