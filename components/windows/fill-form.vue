@@ -91,14 +91,7 @@
       <template #content>
         <h4>Thank you for your time</h4>
         
-        <section class="container-nft-editor">
-          <!-- content -->
-        </section>
-
-        <aside class="center" style="gap: 30px">
-          <v-btn class="btn2">generate</v-btn>
-          <v-btn class="btn2">mint</v-btn>
-        </aside>
+        <DrawingEditor></DrawingEditor>
       </template>
     </WindowsWindow>
   </div>
