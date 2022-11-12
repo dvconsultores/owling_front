@@ -1,6 +1,7 @@
 <template>
   <div id="home" class="divcol">
     <Navbar></Navbar>
+    <WindowsLogin v-if="login"></WindowsLogin>
     <WindowsAbout v-if="about"></WindowsAbout>
     <WindowsNewForm v-if="newForm"></WindowsNewForm>
     <WindowsFillForm v-if="fillForm"></WindowsFillForm>
@@ -15,6 +16,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      login: true,
       about: true,
       newForm: true,
       fillForm: true,
@@ -27,6 +29,12 @@ export default {
     }
   },
   methods: {
+    clearAll() {
+      this.clearAbout()
+      this.clearNewForm()
+      this.clearFillForm()
+      this.login = false
+    },
     clearAbout() {
       this.about = false
       setTimeout(() => {this.about = true}, 200);

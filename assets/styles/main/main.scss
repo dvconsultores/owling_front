@@ -17,6 +17,23 @@
 
 ///////////////////// global ///////////////////////
 
+//- dots -//
+div:has(> .v-btn.dots) .v-btn.dots {
+  --size: 22px;
+  padding: 0 !important;
+  min-width: var(--size) !important;
+  max-width: var(--size) !important;
+  width: var(--size) !important;
+  min-height: var(--size) !important;
+  max-height: var(--size) !important;
+  border-radius: 50% !important;
+  background-color: transparent !important;
+  border: 4px solid var(--accent) !important;
+  pointer-events: none !important; // for while
+  &.active {background-color: currentColor !important}
+}
+
+
 //- menu -//
 .menuList {
   .v-list-item {

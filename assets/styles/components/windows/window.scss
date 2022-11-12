@@ -54,8 +54,8 @@
     display: flex;
     flex-direction: column;
     clip-path: $clip-path-bottom;
-    > .v-form, > .v-sheet:not(.v-list),
-    > .v-window:not(#about .v-window) {
+    > .v-form:not(.not_bg), > .v-sheet:not(.v-list, .not_bg),
+    > .v-window:not(.not_bg) {
       background-color: var(--secondary) !important;
       border: 2px solid var(--accent) !important;
       padding: 20px;

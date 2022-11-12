@@ -7,18 +7,23 @@
     >
       <template #header>
         <div class="center" style="gap: 5px">
-          <v-btn
-            v-for="(n, i) in dataAbout.length" :key="i" :class="{active: i === windowAbout}"
-            @click="windowAbout = i"
-          />
+          <v-btn v-for="n in 3" :key="n" class="dots" :class="{active: n === 1}" />
         </div>
         
         <h2 class="p tup align">about us</h2>
       </template>
 
       <template #content>
-        <v-window v-model="windowAbout">
-          <v-window-item v-for="(item, i) in dataAbout" :key="i" :value="i" class="center" style="gap: 10px">
+        <section class="center" style="gap: 10px">
+          <img :src="dataAbout.img" :alt="`${dataAbout.title} image`" style="--w: 144px">
+          
+          <div class="divcol">
+            <h4>{{dataAbout.title}}</h4>
+            <p class="p">{{dataAbout.desc}}</p>
+          </div>
+        </section>
+        <!-- <v-window v-model="windowAbout">
+          <v-window-item v-for="(item, i) in dataAbout" :key="i" :value="i" class="not_bg center" style="gap: 10px">
             <img :src="item.img" :alt="`${item.title} image`" style="--w: 144px">
             
             <div class="divcol">
@@ -26,7 +31,7 @@
               <p class="p">{{item.desc}}</p>
             </div>
           </v-window-item>
-        </v-window>
+        </v-window> -->
       </template>
     </WindowsWindow>
 
@@ -61,14 +66,12 @@ export default {
   mixins: [computeds, customeDrag],
   data() {
     return {
-      windowAbout: 1,
-      dataAbout: [
-        {
-          img: require("~/assets/sources/images/welcome-img.jpg"),
-          title: "Welcome to",
-          desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s"
-        },
-      ],
+      // windowAbout: 1,
+      dataAbout: {
+        img: require("~/assets/sources/images/welcome-img.jpg"),
+        title: "Welcome to",
+        desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s"
+      },
       dataTeam: [
         {
           img: require("~/assets/sources/team/andres.svg"),

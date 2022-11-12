@@ -14,19 +14,6 @@
       div:has(> .v-btn) {
         position: absolute;
         left: 10px;
-        .v-btn {
-          --size: 22px;
-          padding: 0;
-          min-width: var(--size) !important;
-          max-width: var(--size) !important;
-          width: var(--size) !important;
-          min-height: var(--size) !important;
-          max-height: var(--size) !important;
-          border-radius: 50%;
-          background-color: transparent;
-          border: 4px solid var(--accent);
-          &.active {background-color: currentColor !important}
-        }
       }
     }
 
