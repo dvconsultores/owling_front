@@ -16,7 +16,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
-      login: true,
+      login: false,
       about: true,
       newForm: true,
       fillForm: true,
