@@ -91,7 +91,7 @@
       <template #content>
         <h4>Thank you for your time</h4>
         
-        <section style="height: 400px">
+        <section class="container-nft-editor">
           <!-- content -->
         </section>
 
