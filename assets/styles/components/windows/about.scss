@@ -11,7 +11,7 @@
   
   .custome-window {
     &--header {
-      div:has(> .v-btn) {
+      div.center:has(> .v-btn) {
         position: absolute;
         left: 10px;
       }
@@ -21,7 +21,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      // &::-webkit-scrollbar {display: none}
 
       p {--fs: 14px}
     }

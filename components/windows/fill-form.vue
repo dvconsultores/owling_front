@@ -3,7 +3,7 @@
     <!-- main window -->
     <WindowsWindow
       v-show="mainWindow" id="mainWindow"
-      width="max-content" height="165px" styles="right: 0; bottom: 10%"
+      width="max-content" height="165px" :styles="`right: 0; bottom: 10%; z-index: ${zIndex}`"
       @customeDrag="customeDrag"
     >
       <template #content>
@@ -69,7 +69,7 @@
     <!-- mint nft form window -->
     <WindowsWindow
       v-show="mintNftWindow" id="mintNftWindow"
-      width="959px" height="max-content" padding="30px" styles="top: 0"
+      width="80vh" height="max-content" padding="30px" styles="top: 0"
       @customeDrag="customeDrag"
     >
       <template #header>
@@ -121,6 +121,7 @@ export default {
           answer: undefined,
         },
       ],
+      zIndex: undefined,
     }
   },
   watch: {
@@ -136,6 +137,9 @@ export default {
         this.$store.commit("increaseIndex", target)
       }
     },
+  },
+  mounted() {
+    this.zIndex = this.$store.state.zIndex
   },
   methods: {
     goBack() {

@@ -38,11 +38,17 @@
 
     <!-- team window -->
     <WindowsWindow
-      id="team" :show="false" bg="var(--secondary)" padding="10px" width="418px" height="305.5px"
-      styles="bottom: 0; right: 10%; z-index: 2" @customeDrag="customeDrag"
+      id="team" :show="teamWindow" bg="var(--secondary)" padding="10px" width="418px" height="305.5px"
+      :styles="`bottom: 0; right: 30%; z-index: ${zIndex}`" @customeDrag="customeDrag"
     >
       <template #header>
-        <h2 class="p tup align">the team</h2>
+        <div class="space fill_w">
+          <h2 class="p tup">the team</h2>
+          
+          <v-btn @click="teamWindow = false">
+            <img src="~/assets/sources/icons/close.svg" alt="close icon">
+          </v-btn>
+        </div>
       </template>
 
       <template #content>
@@ -67,6 +73,7 @@ export default {
   data() {
     return {
       // windowAbout: 1,
+      teamWindow: true,
       dataAbout: {
         img: require("~/assets/sources/images/welcome-img.jpg"),
         title: "Welcome to",
@@ -98,7 +105,11 @@ export default {
           name: "patricia"
         },
       ],
+      zIndex: undefined,
     }
+  },
+  mounted() {
+    this.zIndex = this.$store.state.zIndex
   },
   methods: {
   },

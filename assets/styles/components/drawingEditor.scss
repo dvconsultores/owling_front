@@ -2,10 +2,100 @@
 // // // drawing editor // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 .drawingEditor {
+  --w-toolbar: 6.25em;
+  font-size: clamp(9.5px, 1.6vh, 16px);
+  @media (max-height: 866px) {font-size: clamp(9.5px, 1.5vh, 16px)}
+  @media (max-height: 800px) {font-size: clamp(9.5px, 1.4vh, 16px)}
+  @media (max-height: 750px) {font-size: clamp(9.5px, 1.3vh, 16px)}
+
   &--content {
-    height: 400px;
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    gap: 10px;
+  }
+
+  &--toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 5px;
+    min-width: var(--w-toolbar);
+    width: var(--w-toolbar);
+    height: 100%;
+    background-color: transparent;
+    border: 2px solid var(--accent);
+    
+    button[name="color"] {
+      background-color: var(--color);
+      border: 2px solid var(--accent);
+      box-shadow: inset 2px -2px 0 hsl(47 22% 64% / .5);
+      aspect-ratio: 1 / 1;
+    }
+    
+    button[name="lineWidth"] {
+      background: center url(../../sources/miscellaneous/strokes.jpg);
+      background-size: 100% 100%;
+      border: 2px solid var(--accent);
+      box-shadow: inset -2px -2px 0 #fff;
+      width: 100%;
+      aspect-ratio: 1 / .75;
+    }
+    
+    button[name="colorStorage"] {
+      --position: 0.5em;
+
+      border: 2px solid var(--accent);
+      width: 100%;
+      aspect-ratio: 1 / .75;
+      position: relative;
+      
+      * {
+        @include absoluteCenter;
+        pointer-events: none !important;
+      }
+      div[class*="storaged"] {
+        width: 1.79125em;
+        aspect-ratio: 1 / 1;
+        &::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+        }
+      }
+      
+      .color-storaged-1 {
+        transform: translate(calc(var(--position) * -1), calc(var(--position) * -1));
+        background-color: var(--color);
+        &::before {border: 0.1875em solid var(--accent)}
+        &.invert::before {filter: invert(100%)}
+      }
+      
+      .color-storaged-2 {
+        transform: translate(var(--position), var(--position));
+        background-color: var(--color);
+        &::before {border: 0.1875em solid var(--accent)}
+        &.invert::before {filter: invert(100%)}
+      }
+      
+      img {
+        transform: translate(calc(var(--position) * 2), calc(var(--position) * -2));
+      }
+    }
+  }
+
+  #drawing-board {
+    outline: 2px solid var(--accent);
+    background: center no-repeat var(--label), center url(../../sources/images/bg-drawing-editor.png);
+    background-size: 9.8125em, cover;
   }
 
   &--actions {
+    --gap: 30px;
+
+    width: calc(100% - (var(--gap) + var(--w-toolbar)));
+    gap: var(--gap);
+    margin-left: auto;
+    .v-btn {--fs: 13px}
   }
 }

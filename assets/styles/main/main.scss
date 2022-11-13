@@ -17,6 +17,15 @@
 
 ///////////////////// global ///////////////////////
 
+//- sliders -//
+.v-input .v-slider__thumb {
+  @include pixelBorder;
+  border-radius: 0;
+  --bg: var(--active);
+  --c-size: 3px;
+}
+
+
 //- dots -//
 div:has(> .v-btn.dots) .v-btn.dots {
   --size: 22px;
