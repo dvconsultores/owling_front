@@ -97,6 +97,7 @@
               v-model="formZero.title" 
               solo
               :error="formZero.errorTitle"
+              @input="inputTitle()"
             ></v-text-field>
           </div>
           
@@ -107,6 +108,7 @@
                 id="question" v-model="item.question"
                 hide-details solo
                 :error="item.error"
+                @input="inputQuestion(item)"
               >
                 <template #append-outer>
                   <img
@@ -472,7 +474,6 @@ export default {
       let urls
 
       if (this.formZero.title && this.formZero.title !== "") {
-        this.formZero.errorTitle = false
         title = true
       } else {
         this.formZero.errorTitle = true
@@ -521,12 +522,25 @@ export default {
         }
       }
 
-      console.log([title, questions, answer, nfts, urls])
-
       if (title && questions && answer && nfts && urls) {
         return true
       }
       return false
+    },
+    inputTitle() {
+      if (this.formZero.title && this.formZero.title !== "") {
+        this.formZero.errorTitle = false
+      } else {
+        this.formZero.errorTitle = true
+      }
+    },
+    inputQuestion(item) {
+      console.log(item)
+      // if (this.formZero.title && this.formZero.title !== "") {
+      //   this.formZero.errorTitle = false
+      // } else {
+      //   this.formZero.errorTitle = true
+      // }
     },
     clearWindow() {
       this.mainWindow = true
