@@ -62,7 +62,7 @@ export default {
     '~/plugins/polyfills.js',
     '~/plugins/directives.js',
     '~/plugins/axios.js',
-    '~/plugins/apexchart.js',
+    // '~/plugins/apexchart.js',
     '~/plugins/google-maps.js',
     '~/plugins/vue-debounce.js',
     // services

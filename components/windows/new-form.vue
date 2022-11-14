@@ -196,7 +196,7 @@
             ADD ANOTHER NFT <img src="~/assets/sources/icons/add.svg" alt="add icon" style="--w: 1.2em">
           </h4>
 
-          <v-btn class="btn align" style="--w: 167px" @click="$refs.modal.openModal('success')">save</v-btn>
+          <v-btn class="btn align" style="--w: 167px" @click="save()">save</v-btn>
         </v-form>
       </template>
     </WindowsWindow>
@@ -396,6 +396,10 @@ export default {
     },
   },
   methods: {
+    save() {
+      console.log(this.formZero)
+      this.$refs.modal.openModal('success')
+    },
     clearWindow() {
       this.mainWindow = true
       this.createWindow = false
