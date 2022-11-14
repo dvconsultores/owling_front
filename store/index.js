@@ -95,7 +95,7 @@ export const mutations = {
     }
     
     window.$nuxt.$wallet.requestSignIn(
-      'contract.musicfeast.testnet'
+      'contract.owling.testnet'
     );
   },
   signOut() {
