@@ -176,7 +176,7 @@
             </v-text-field>
             
             <img
-              v-if="i+1 > 3"
+              v-if="i+1 === formZero.nfts.length && formZero.nfts.length > 2"
               :src="require(`~/assets/sources/icons/x.svg`)" alt="delete nft icon"
               class="pointer" style="margin-bottom: var(--margin-input)" @click="formZero.nfts.shift()"
             >
@@ -334,7 +334,6 @@ export default {
           },
         ],
         nfts: [
-          { url: undefined },
           { url: undefined },
           { url: undefined },
         ],
