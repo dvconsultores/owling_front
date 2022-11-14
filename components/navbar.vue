@@ -12,18 +12,18 @@
     <v-menu v-model="menuList" right offset-x nudge-left="-10px" activator=".openMenuList">
       <v-list class="menuList card">
         <v-list-item-group active-class="activeClass" :mandatory="isClicked">
-          <v-list-item @click="$parent.clearAbout()">
+          <v-list-item @click="$parent.openAbout()">
             <v-list-item-title>{{menu.about}}</v-list-item-title>
           </v-list-item>
           
-          <v-list-item @click="$parent.clearNewForm()">
+          <v-list-item @click="$parent.openNewForm()">
             <v-list-item-title>
               {{menu.newForm}}
             </v-list-item-title>
             <v-icon large>mdi-menu-right</v-icon>
           </v-list-item>
           
-          <v-list-item @click="$parent.clearFillForm()">
+          <v-list-item @click="$parent.openFillForm()">
             <v-list-item-title>{{menu.fillForm}}</v-list-item-title>
             <v-icon large>mdi-menu-right</v-icon>
           </v-list-item>

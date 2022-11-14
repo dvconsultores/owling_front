@@ -39,7 +39,7 @@
     <!-- team window -->
     <WindowsWindow
       id="team" :show="teamWindow" bg="var(--secondary)" padding="10px" width="418px" height="305.5px"
-      :styles="`bottom: 0; right: 30%; z-index: ${zIndex}`" @customeDrag="customeDrag"
+      :styles="`bottom: 5%; right: 30%; z-index: ${zIndex}`" @customeDrag="customeDrag"
     >
       <template #header>
         <div class="space fill_w">

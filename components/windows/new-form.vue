@@ -32,10 +32,10 @@
           <h2 class="p tup">new form</h2>
           
           <aside class="custome-window--header-controls">
-            <v-btn @click="$parent.clearNewForm()">
+            <v-btn @click="clearWindow()">
               <img src="~/assets/sources/icons/back.svg" alt="go back icon">
             </v-btn>
-            <v-btn @click="$parent.clearNewForm()">
+            <v-btn @click="clearWindow()">
               <img src="~/assets/sources/icons/close.svg" alt="close icon">
             </v-btn>
           </aside>
@@ -56,10 +56,10 @@
             <v-btn class="btn" style="--w: 164.19px" @click="createWindow = false; editFormWindow = true">edit</v-btn>
           </div>
           
-          <div class="divcol center" style="gap: 20px">
+          <!-- <div class="divcol center" style="gap: 20px">
             <img src="~/assets/sources/images/statistics-form-img.png" alt="statistics form image" style="--w: 169px">
             <v-btn class="btn" style="--w: 164.19px" @click="createWindow = false; statsFormWindow = true">statistics</v-btn>
-          </div>
+          </div> -->
         </v-sheet>
       </template>
     </WindowsWindow>
@@ -79,7 +79,7 @@
             <v-btn @click="zeroFormWindow = false; createWindow = true">
               <img src="~/assets/sources/icons/back.svg" alt="go back icon">
             </v-btn>
-            <v-btn @click="$parent.clearNewForm()">
+            <v-btn @click="clearWindow()">
               <img src="~/assets/sources/icons/close.svg" alt="close icon">
             </v-btn>
           </aside>
@@ -136,16 +136,19 @@
 
           <div class="acenter mt-4" style="gap: 10px">
             <label for="nft" class="tup">NFT (url)</label>
-            <v-file-input
+            <!-- <v-text-field
               id="nft"
               v-model="formZero.nft" solo
-              prepend-icon=""
               @change="imgPreview('formZero', $event)"
+            > -->
+            <v-text-field
+              id="nft"
+              v-model="formZero.nft" solo
             >
               <template v-if="previewImg_zero" #append-outer>
                 <img :src="previewImg_zero" alt="nft preview" style="--w: 57.56px; --h: 50px">
               </template>
-            </v-file-input>
+            </v-text-field>
           </div>
 
           <v-btn class="btn align" style="--w: 167px" @click="$refs.modal.openModal('success')">save</v-btn>
@@ -168,7 +171,7 @@
             <v-btn @click="editFormWindow = false; createWindow = true">
               <img src="~/assets/sources/icons/back.svg" alt="go back icon">
             </v-btn>
-            <v-btn @click="$parent.clearNewForm()">
+            <v-btn @click="clearWindow()">
               <img src="~/assets/sources/icons/close.svg" alt="close icon">
             </v-btn>
           </aside>
@@ -187,17 +190,17 @@
               <h4 class="p tup">{{item.name}}</h4>
             </div>
             
-            <v-file-input
-              v-model="item.nft"
-              prepend-icon="" solo
+            <v-text-field
+              v-model="item.url" solo
             >
               <template #append>
                 <img src="~/assets/sources/icons/clip.svg" alt="clip icon">
               </template>
-            </v-file-input>
+            </v-text-field>
 
-            <v-btn class="btn2">Settings</v-btn>
-            <v-btn class="btn2" @click="$refs.modal.editFormModal = true">Preview</v-btn>
+            <!-- <v-btn class="btn2">Settings</v-btn>
+            <v-btn class="btn2" @click="$refs.modal.editFormModal = true">Preview</v-btn> -->
+            <v-btn class="btn2" @click="editFormWindow = false; statsFormWindow = true">Stats</v-btn>
           </aside>
         </v-sheet>
       </template>
@@ -215,10 +218,13 @@
           <h2 class="p tup">new form - stats</h2>
           
           <aside class="custome-window--header-controls">
-            <v-btn @click="statsFormWindow = false; createWindow = true">
+            <!-- <v-btn @click="statsFormWindow = false; createWindow = true">
+              <img src="~/assets/sources/icons/back.svg" alt="go back icon">
+            </v-btn> -->
+            <v-btn @click="statsFormWindow = false; editFormWindow = true">
               <img src="~/assets/sources/icons/back.svg" alt="go back icon">
             </v-btn>
-            <v-btn @click="$parent.clearNewForm()">
+            <v-btn @click="clearWindow()">
               <img src="~/assets/sources/icons/close.svg" alt="close icon">
             </v-btn>
           </aside>
@@ -291,15 +297,15 @@ export default {
       formEdit: [
         {
           name: "form 1",
-          nft: [],
+          url: [],
         },
         {
           name: "form 2",
-          nft: [],
+          url: [],
         },
         {
           name: "form 3",
-          nft: [],
+          url: [],
         },
       ],
     }
@@ -339,10 +345,22 @@ export default {
     },
   },
   methods: {
-    imgPreview(key, file) {
-      this[key].nft = file;
-      if (key === 'formZero') { this.previewImg_zero = URL.createObjectURL(file) }
-    }
+    clearWindow() {
+      this.mainWindow = true
+      this.createWindow = false
+      this.zeroFormWindow = false
+      this.editFormWindow = false
+      this.statsFormWindow = false
+    },
+    openNewForm() {
+      this.clearWindow()
+      this.mainWindow = false
+      this.createWindow = true
+    },
+    // imgPreview(key, file) {
+    //   this[key].nft = file;
+    //   if (key === 'formZero') { this.previewImg_zero = URL.createObjectURL(file) }
+    // }
   },
 };
 </script>

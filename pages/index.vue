@@ -2,9 +2,9 @@
   <div id="home" class="divcol">
     <Navbar></Navbar>
     <WindowsLogin v-if="login"></WindowsLogin>
-    <WindowsAbout v-if="about"></WindowsAbout>
-    <WindowsNewForm v-if="newForm"></WindowsNewForm>
-    <WindowsFillForm v-if="fillForm"></WindowsFillForm>
+    <WindowsAbout ref="about"></WindowsAbout>
+    <WindowsNewForm ref="newForm"></WindowsNewForm>
+    <WindowsFillForm ref="fillForm"></WindowsFillForm>
   </div>
 </template>
 
@@ -29,26 +29,16 @@ export default {
     }
   },
   methods: {
-    clearAll() {
-      this.clearAbout()
-      this.clearNewForm()
-      this.clearFillForm()
-      this.login = false
+    openAbout() {
+      this.$store.commit("increaseIndex", document.querySelector("#about #mainWindow"))
+      this.$store.commit("increaseIndex", document.querySelector("#about #team"))
+      this.$refs.about.teamWindow = true
     },
-    clearAbout() {
-      this.about = false
-      setTimeout(() => {this.about = true}, 200);
-      console.log("about cleared")
+    openNewForm() {
+      this.$refs.newForm.openNewForm()
     },
-    clearNewForm() {
-      this.newForm = false
-      setTimeout(() => {this.newForm = true}, 200);
-      console.log("new form cleared")
-    },
-    clearFillForm() {
-      this.fillForm = false
-      setTimeout(() => {this.fillForm = true}, 200);
-      console.log("fill form cleared")
+    openFillForm() {
+      this.$refs.fillForm.openFillForm()
     },
   }
 };

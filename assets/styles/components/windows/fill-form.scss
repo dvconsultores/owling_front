@@ -11,10 +11,24 @@
   #fillFormWindow ::-webkit-scrollbar {display: none}
 
   #mintNftWindow {
-    .v-btn {
-      --w: 126px;
-      --h: 34px;
-      --min-h: 34px;
+    .nft-preview {
+      --w: 100%;
+      aspect-ratio: 1 / 1;
+      // height: 25em;
+    }
+
+    .controls {
+      --gap: 30px;
+
+      width: calc(100% - 50px);
+      gap: var(--gap);
+      margin-left: auto;
+      .v-btn {
+        --w: 126px;
+        --h: 34px;
+        --min-h: 34px;
+        --fs: 13px;
+      }
     }
   }
 }

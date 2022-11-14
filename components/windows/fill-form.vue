@@ -30,7 +30,7 @@
               @click="goBack()">
               <img src="~/assets/sources/icons/back.svg" alt="go back icon">
             </v-btn>
-            <v-btn @click="clearWindow(); $parent.clearFillForm()">
+            <v-btn @click="clearWindow()">
               <img src="~/assets/sources/icons/close.svg" alt="close icon">
             </v-btn>
           </aside>
@@ -69,7 +69,7 @@
     <!-- mint nft form window -->
     <WindowsWindow
       v-show="mintNftWindow" id="mintNftWindow"
-      width="80vh" height="max-content" padding="30px" styles="top: 0"
+      width="31.25em" height="max-content" padding="30px" styles="top: 0"
       @customeDrag="customeDrag"
     >
       <template #header>
@@ -81,7 +81,7 @@
               @click="mintNftWindow = false; mainWindow = true">
               <img src="~/assets/sources/icons/back.svg" alt="go back icon">
             </v-btn>
-            <v-btn @click="$parent.clearFillForm()">
+            <v-btn @click="clearWindow()">
               <img src="~/assets/sources/icons/close.svg" alt="close icon">
             </v-btn>
           </aside>
@@ -90,8 +90,13 @@
 
       <template #content>
         <h4>Thank you for your time</h4>
-        
-        <DrawingEditor></DrawingEditor>
+
+        <img :src="nftPreview" alt="your nft" class="nft-preview">
+
+        <aside class="controls center mt-5">
+          <v-btn class="btn2">generate</v-btn>
+          <v-btn class="btn2">mint</v-btn>
+        </aside>
       </template>
     </WindowsWindow>
   </div>
@@ -121,6 +126,8 @@ export default {
           answer: undefined,
         },
       ],
+      nftPreview: require("~/assets/sources/images/nft-preview-2.jpg"),
+
       zIndex: undefined,
     }
   },
@@ -144,8 +151,7 @@ export default {
   methods: {
     goBack() {
       if (this.windowStep === 1) {
-        this.clearWindow();
-        this.mainWindow = true
+        this.clearWindow()
       } else {
         this.windowStep--
       }
@@ -154,6 +160,11 @@ export default {
       this.windowStep = 1
       this.dataFormFill.forEach(e => {e.answer = undefined})
       this.fillFormWindow = false
+      this.mainWindow = true
+    },
+    openFillForm() {
+      this.mainWindow = false
+      this.fillFormWindow = true
     },
     nextStep() {
       if (this.windowStep < this.dataFormFill.length) this.windowStep++
