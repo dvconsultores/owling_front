@@ -462,7 +462,7 @@ img:not(.not_html, .not) {
 .v-text-field--solo:not(.not_vuetify, .not) {
   --bg: var(--secondary);
   --c: var(--clr);
-  --c-label: var(--c);
+  --c-label: hsl(0 0% 0% / .6);
   --c-place: #6e6e6e;
   --b: 2px solid var(--accent);
   --br: 0;

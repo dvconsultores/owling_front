@@ -22,11 +22,11 @@
     > .v-input {
       width: max-content;
       padding-top: 5px !important;
+      label {color: hsl(0 0% 0% / .6)}
       
       .pts {
         --bg: var(--primary);
         --b: 2px solid var(--accent);
-        --c-label: hsl(0 0% 0% / .6);
         --fs: 12px;
         --fs-label: 12px;
         --w-size: 60px;
@@ -65,6 +65,7 @@
         }
       }
     }
+    
     span + h4 {margin-top: 10px}
   }
 

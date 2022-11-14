@@ -167,15 +167,22 @@
           </template>
 
           <div v-for="(item, i) in formZero.nfts" :key="i" class="acenter" style="gap: 10px">
-            <label :for="`nft ${i+1}`" class="tup">NFT (url)</label>
+            <v-text-field
+              v-model="item.title" solo
+              label="NFT TITLE"
+              style="--fs: 16px; --w: 100px"
+            ></v-text-field>
+            
             <!-- <v-text-field
               id="nft"
               v-model="formZero.nft" solo
               @change="imgPreview('formZero', $event)"
             > -->
             <v-text-field
-              :id="`nft ${i+1}`" v-model="item.url"
-              class="input-nfts" solo
+              v-model="item.url" solo
+              label="NFT URL"
+              class="input-nfts"
+              style="--fs: 16px"
             >
               <template v-if="previewImg_zero" #append-outer>
                 <img :src="previewImg_zero" alt="nft preview" style="--w: 57.56px; --h: 50px">
