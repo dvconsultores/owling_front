@@ -104,7 +104,14 @@
               <v-text-field
                 id="question" v-model="formZero.question"
                 hide-details solo
-              ></v-text-field>
+              >
+                <template #append-outer>
+                  <img
+                    v-if="i > 0"
+                    :src="require(`~/assets/sources/icons/x.svg`)" alt="delete question icon"
+                    class="pointer" @click="formZero.slots.splice(i)">
+                </template>
+              </v-text-field>
             </div>
             
             <section :key="i" class="container-answers">
