@@ -102,7 +102,7 @@
             <div :key="i" class="acenter" style="gap: 10px">
               <label for="question" class="tup">question</label>
               <v-text-field
-                id="question" v-model="formZero.question"
+                id="question" v-model="item.question"
                 hide-details solo
               >
                 <template #append-outer>
