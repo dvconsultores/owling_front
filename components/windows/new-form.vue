@@ -139,7 +139,7 @@
                 </template>
               </v-text-field>
 
-              <span class="end" style="font-size: 14px; --stroke: .5px">{{i+1}}/10</span>
+              <span class="end" style="font-size: 14px; --stroke: .5px">{{i+1}}/{{formZero.slots.length}}</span>
 
               <h4
                 v-if="i+1 === formZero.slots.length && formZero.slots.length < 10"
