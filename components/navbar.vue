@@ -1,12 +1,28 @@
 <template>
   <div>
     <v-toolbar id="navbar" color="transparent" absolute class="isolate" min-height="100%" width="var(--w-navbar)">
-      <v-btn
-        v-for="(item, i) in dataNavbar" :key="i" color="transparent" :ripple="false"
-        :class="{openMenuList: item.name === 'menu'}">
-        <img :src="item.img" :alt="`${item.name} icon`" style="--w: 55px">
-        <span>{{item.name}}</span>
-      </v-btn>
+      <div v-for="(item, i) in dataNavbar" :key="i">
+        <v-btn
+          color="transparent" :ripple="false"
+          :class="{openMenuList: item.name === 'menu'}" 
+          v-if="item.name === 'Instagram'" href="https://www.instagram.com/" target="_blank">
+          <img :src="item.img" :alt="`${item.name} icon`" style="--w: 55px">
+          <span>{{item.name}}</span>
+        </v-btn>
+        <v-btn v-else-if="item.name === 'Twitter'" href="https://twitter.com/?lang=es" target="_blank"
+          color="transparent" :ripple="false"
+          :class="{openMenuList: item.name === 'menu'}" >
+          <img :src="item.img" :alt="`${item.name} icon`" style="--w: 55px">
+          <span>{{item.name}}</span>
+        </v-btn>
+        <v-btn v-else
+          color="transparent" :ripple="false"
+          :class="{openMenuList: item.name === 'menu'}" >
+          <img :src="item.img" :alt="`${item.name} icon`" style="--w: 55px">
+          <span>{{item.name}}</span>
+        </v-btn>
+      </div>
+      
     </v-toolbar>
 
     <v-menu v-model="menuList" right offset-x nudge-left="-10px" activator=".openMenuList">
@@ -63,11 +79,11 @@ export default {
         },
         {
           img: require("~/assets/sources/icons/twitter.svg"),
-          name: "twitter",
+          name: "Twitter",
         },
         {
           img: require("~/assets/sources/icons/instagram.svg"),
-          name: "instagram",
+          name: "Instagram",
         },
       ],
       menuSelection: undefined,
