@@ -68,7 +68,7 @@
     <!-- zero form window -->
     <WindowsWindow
       v-show="zeroFormWindow" id="zeroForm"
-      width="978px" height="628px" padding="30px" styles="top: 0"
+      width="61.125em" height="628px" padding="30px" styles="top: 0"
       @customeDrag="customeDrag"
     >
       <template #header>
@@ -89,7 +89,7 @@
       <template #content>
         <h4>Fill in the following information</h4>
         
-        <v-form class="divcol pb-7">
+        <v-form class="divcol pb-7 px-12">
           <div class="acenter" style="gap: 10px">
             <label for="title">Title</label>
             <v-text-field
@@ -98,58 +98,96 @@
             ></v-text-field>
           </div>
           
-          <div class="acenter" style="gap: 10px">
-            <label for="question" class="tup">quesiton</label>
-            <v-text-field
-              id="question"
-              v-model="formZero.question" solo
-            ></v-text-field>
-          </div>
-          
-          <section class="container-checkboxes">
-            <v-text-field
-              v-for="(item, i) in formZero.dataAnswers" :key="i"
-              v-model="item.answer"
-              :label="`Answer ${i+1}`"
-              class="mt-0"
-            >
-              <template #prepend>
-                <img
-                  :src="require(`~/assets/sources/icons/checkbox${item.isCorrect ? '-active': ''}.svg`)"
-                  :alt="item.isCorrect ? 'correct answer' : 'incorrect answer'" class="pointer" @click="item.isCorrect = !item.isCorrect"
-                >
-              </template>
-              
-              <template #append>
-                <img
-                  :src="require(`~/assets/sources/icons/x.svg`)" alt="bad quesiton icon"
-                  class="pointer"  @click="formZero.dataAnswers.splice(i, 1)">
-              </template>
-            </v-text-field>
+          <template v-for="(item, i) in formZero.slots">
+            <div :key="i" class="acenter" style="gap: 10px">
+              <label for="question" class="tup">question</label>
+              <v-text-field
+                id="question" v-model="formZero.question"
+                hide-details solo
+              ></v-text-field>
+            </div>
+            
+            <section :key="i" class="container-answers">
+              <v-text-field
+                v-for="(item2, i2) in item.dataAnswers" :key="i2"
+                v-model="item2.answer"
+                :label="`Answer ${i2+1}`"
+                class="mt-0"
+                :messages="i2+1 === item.dataAnswers.length && item.dataAnswers.length < 4 ? 'message' : ''"
+              >
+                <template #prepend>
+                  <v-text-field
+                    v-model="item2.pts"
+                    solo type="number"
+                    label="pts"
+                    class="pts"
+                  ></v-text-field>
+                </template>
+                
+                <template v-if="i2+1 === item.dataAnswers.length && item.dataAnswers.length > 2" #append>
+                  <img
+                    :src="require(`~/assets/sources/icons/x.svg`)" alt="delete question icon"
+                    class="pointer"  @click="item.dataAnswers.shift()">
+                </template>
 
-            <h4
-              class="p end pointer" style="--c: #5803C4; gap: 5px"
-              @click="formZero.dataAnswers.push({ answer: undefined, isCorrect: false })">
-              ADD ANOTHER QUESTION <img src="~/assets/sources/icons/add.svg" alt="add icon">
-            </h4>
-          </section>
+                <template v-if="i2+1 === item.dataAnswers.length && item.dataAnswers.length < 4" #message>
+                  <h4
+                    class="p end pointer" style="--fs: 12px;--c: #5803C4; gap: 5px"
+                    @click="item.dataAnswers.push({ answer: undefined, pts: undefined })">
+                    ADD ANOTHER ANSWER <img src="~/assets/sources/icons/add.svg" alt="add icon" style="--w: 1.2em">
+                  </h4>
+                </template>
+              </v-text-field>
 
-          <div class="acenter mt-4" style="gap: 10px">
-            <label for="nft" class="tup">NFT (url)</label>
+              <span class="end" style="font-size: 14px; --stroke: .5px">{{i+1}}/10</span>
+
+              <h4
+                v-if="i+1 === formZero.slots.length && formZero.slots.length < 10"
+                class="p end pointer" style="--c: #5803C4; gap: 5px"
+                @click="formZero.slots.push(
+                  {
+                    question: undefined,
+                    dataAnswers: [
+                      { answer: undefined, pts: undefined },
+                      { answer: undefined, pts: undefined },
+                      { answer: undefined, pts: undefined },
+                    ]
+                  }
+                )">
+                ADD ANOTHER QUESTION <img src="~/assets/sources/icons/add.svg" alt="add icon" style="--w: 1.2em">
+              </h4>
+            </section>
+          </template>
+
+          <div v-for="(item, i) in formZero.nfts" :key="i" class="acenter" style="gap: 10px">
+            <label :for="`nft ${i+1}`" class="tup">NFT (url)</label>
             <!-- <v-text-field
               id="nft"
               v-model="formZero.nft" solo
               @change="imgPreview('formZero', $event)"
             > -->
             <v-text-field
-              id="nft"
-              v-model="formZero.nft" solo
+              :id="`nft ${i+1}`" v-model="item.url"
+              class="input-nfts" solo
             >
               <template v-if="previewImg_zero" #append-outer>
                 <img :src="previewImg_zero" alt="nft preview" style="--w: 57.56px; --h: 50px">
               </template>
             </v-text-field>
+            
+            <img
+              v-if="i+1 > 3"
+              :src="require(`~/assets/sources/icons/x.svg`)" alt="delete nft icon"
+              class="pointer" style="margin-bottom: var(--margin-input)" @click="formZero.nfts.shift()"
+            >
           </div>
+          
+          <h4
+            v-if="formZero.nfts.length <= 3"
+            class="p end pointer" style="--c: #5803C4; gap: 5px"
+            @click="formZero.nfts.push({url: undefined})">
+            ADD ANOTHER NFT <img src="~/assets/sources/icons/add.svg" alt="add icon" style="--w: 1.2em">
+          </h4>
 
           <v-btn class="btn align" style="--w: 167px" @click="$refs.modal.openModal('success')">save</v-btn>
         </v-form>
@@ -284,15 +322,22 @@ export default {
       previewImg_zero: undefined,
       
       formZero: {
-        nft: [],
         title: undefined,
-        quesiton: undefined,
-        correctAnswers: [],
-        dataAnswers: [
-          { answer: undefined, isCorrect: false },
-          { answer: undefined, isCorrect: false },
-          { answer: undefined, isCorrect: false },
-        ]
+        slots: [
+          {
+            question: undefined,
+            dataAnswers: [
+              { answer: undefined, pts: undefined },
+              { answer: undefined, pts: undefined },
+              { answer: undefined, pts: undefined },
+            ]
+          },
+        ],
+        nfts: [
+          { url: undefined },
+          { url: undefined },
+          { url: undefined },
+        ],
       },
       formEdit: [
         {

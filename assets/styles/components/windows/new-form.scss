@@ -16,15 +16,45 @@
     }
   }
 
-  .container-checkboxes {
-    .v-input {  
+  .container-answers {
+    margin-bottom: 50px;
+
+    > .v-input {
       width: max-content;
+      padding-top: 5px !important;
+      
+      .pts {
+        --bg: var(--primary);
+        --b: 2px solid var(--accent);
+        --c-label: hsl(0 0% 0% / .6);
+        --fs: 12px;
+        --fs-label: 12px;
+        --w-size: 60px;
+        --h-size: 20px;
+        --min-w: var(--w-size) !important;
+        --max-w: var(--w-size) !important;
+        --w: var(--w-size) !important;
+        --min-h: var(--h-size) !important;
+        --max-h: var(--h-size) !important;
+        --h: var(--h-size) !important;
+        --p: 0 5px;
+
+        * {text-align: center}
+        .v-label {
+          margin: auto !important;
+          left: 0 !important;
+          right: 0 !important;
+        }
+        .v-text-field__details {display: none !important}
+        .v-input__slot {margin-bottom: auto !important}
+      }
+      
       .v-input__append-inner {margin: auto !important}
     }
   }
 
   #zeroForm {
-    .v-file-input {
+    .input-nfts {
       .v-input__control {
         margin-right: 20px;
       }
@@ -35,6 +65,7 @@
         }
       }
     }
+    span + h4 {margin-top: 10px}
   }
 
   #editForm {

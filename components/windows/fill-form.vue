@@ -160,6 +160,7 @@ export default {
       this.windowStep = 1
       this.dataFormFill.forEach(e => {e.answer = undefined})
       this.fillFormWindow = false
+      this.mintNftWindow = false
       this.mainWindow = true
     },
     openFillForm() {
