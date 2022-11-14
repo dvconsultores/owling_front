@@ -44,7 +44,7 @@
             <v-icon large>mdi-menu-right</v-icon>
           </v-list-item>
           
-          <v-list-item v-if="!isLogged" @click="$store.commit('signIn')">
+          <v-list-item v-if="!isLogged" @click="$parent.$parent.$parent.$parent.$refs.connect.modalConnect = true">
             <v-list-item-title>{{menu.login}}</v-list-item-title>
           </v-list-item>
           

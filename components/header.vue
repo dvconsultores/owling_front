@@ -7,7 +7,7 @@
 
       <aside class="center">
 
-        <v-btn v-if="!isLogged" class="btn" @click="$store.commit('signIn')">LOG IN</v-btn>
+        <v-btn v-if="!isLogged" class="btn" @click="$parent.$parent.$refs.connect.modalConnect = true">LOG IN</v-btn>
         
         <div v-else class="center" style="gap: 10px">
           <img src="~/assets/sources/avatars/avatar-female.svg" alt="avatar">

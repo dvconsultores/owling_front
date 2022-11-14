@@ -2,6 +2,8 @@
   <v-app id="layout" class="relative">
     <Alerts ref="alerts"></Alerts>
     <Header ref="navbar" />
+    <ModalsConnect ref="connect"></ModalsConnect>
+    
     <v-main :class="wrapperSpace?'with':'without'" class="parent">
       <nuxt-child />
     </v-main>
