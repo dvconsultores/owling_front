@@ -51,6 +51,7 @@
                 v-if="item.type == 'input'"
                 :id="`question ${i+1}`" v-model="item.answer" solo
                 label="Type1 your answer here . . ."
+                :error="item.error"
               ></v-text-field>
 
               <v-select
@@ -60,7 +61,8 @@
                 :items="item.answers"
                 hide-details solo
                 label="Select answer..."
-                @change="$emit('filterB', filterB_model)"
+                :error="item.error"
+
               ></v-select>
 
               <!-- <v-text-field
@@ -73,6 +75,7 @@
 
               <v-btn
                 v-if="auxBtn"
+                disabled
                 class="btn align" style="--w: 164.19px"
                 @click="nextStep()">
                 {{'next'}}
@@ -198,7 +201,8 @@ export default {
               question: response.questions[i],
               answer: undefined,
               answers: response.possibly_answers[i],
-              type: undefined
+              type: undefined,
+              error: true
             }
 
             if (response.possibly_answers[i][0] === '') {
