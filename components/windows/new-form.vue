@@ -94,7 +94,10 @@
             <label for="title">Title</label>
             <v-text-field
               id="title"
-              v-model="formZero.title" solo
+              v-model="formZero.title" 
+              solo
+              :error="formZero.errorTitle"
+              @input="inputTitle()"
             ></v-text-field>
           </div>
           
@@ -104,6 +107,8 @@
               <v-text-field
                 id="question" v-model="item.question"
                 hide-details solo
+                :error="item.error"
+                @input="inputQuestion(item)"
               >
                 <template #append-outer>
                   <img
@@ -121,6 +126,8 @@
                 :label="`Answer ${i2+1}`"
                 class="mt-0"
                 :messages="i2+1 === item.dataAnswers.length && item.dataAnswers.length < 4 ? 'message' : ''"
+                :error="item2.error"
+                @input="inputAnswer(item2)"
               >
                 <template #prepend>
                   <v-text-field
@@ -128,6 +135,8 @@
                     solo type="number"
                     label="pts"
                     class="pts"
+                    :error="item2.error"
+                    @input="inputAnswer(item2)"
                   ></v-text-field>
                 </template>
                 
@@ -154,10 +163,11 @@
                 @click="formZero.slots.push(
                   {
                     question: undefined,
+                    error: false,
                     dataAnswers: [
-                      { answer: undefined, pts: undefined },
-                      { answer: undefined, pts: undefined },
-                      { answer: undefined, pts: undefined },
+                      { answer: undefined, pts: undefined, error: false },
+                      { answer: undefined, pts: undefined, error: false },
+                      { answer: undefined, pts: undefined, error: false },
                     ]
                   }
                 )">
@@ -171,6 +181,8 @@
               v-model="item.title" solo
               label="NFT TITLE"
               style="--fs: 16px; --w: 100px"
+              :error="item.error"
+              @input="inputNFT(item)"
             ></v-text-field>
             
             <!-- <v-text-field
@@ -183,6 +195,8 @@
               label="NFT URL"
               class="input-nfts"
               style="--fs: 16px"
+              :error="item.errorUrl"
+              @input="inputURL(item)"
             >
               <template v-if="previewImg_zero" #append-outer>
                 <img :src="previewImg_zero" alt="nft preview" style="--w: 57.56px; --h: 50px">
@@ -199,7 +213,7 @@
           <h4
             v-if="formZero.nfts.length <= 3"
             class="p end pointer" style="--c: #5803C4; gap: 5px"
-            @click="formZero.nfts.push({url: undefined})">
+            @click="formZero.nfts.push({title: undefined, url: undefined, error: false, errorUrl: false})">
             ADD ANOTHER NFT <img src="~/assets/sources/icons/add.svg" alt="add icon" style="--w: 1.2em">
           </h4>
 
@@ -319,8 +333,11 @@
 </template>
 
 <script>
+import * as nearAPI from 'near-api-js'
 import computeds from '~/mixins/computeds'
 import customeDrag from '~/mixins/customeDrag'
+
+const {Contract } = nearAPI
 
 export default {
   name: "NewFormComponent",
@@ -337,19 +354,21 @@ export default {
       
       formZero: {
         title: undefined,
+        errorTitle: false,
         slots: [
           {
             question: undefined,
+            error: false,
             dataAnswers: [
-              { answer: undefined, pts: undefined },
-              { answer: undefined, pts: undefined },
-              { answer: undefined, pts: undefined },
+              { answer: undefined, pts: undefined, error: false },
+              { answer: undefined, pts: undefined, error: false },
+              { answer: undefined, pts: undefined, error: false },
             ]
           },
         ],
         nfts: [
-          { url: undefined },
-          { url: undefined },
+          { title: undefined, url: undefined, error: false, errorUrl: false },
+          { title: undefined, url: undefined, error: false, errorUrl: false },
         ],
       },
       formEdit: [
@@ -403,9 +422,149 @@ export default {
     },
   },
   methods: {
-    save() {
-      console.log(this.formZero)
-      this.$refs.modal.openModal('success')
+    async save () {
+      const CONTRACT_NAME = 'contract.owling.testnet'
+      if (this.$wallet.isSignedIn()) {
+        if (this.validateForm()) {
+          const contract = new Contract(this.$wallet.account(), CONTRACT_NAME, {
+            changeMethods: ['create_form'],
+            sender: this.$wallet.account()
+          })
+
+          const datos = {
+            title: this.formZero.title,
+            questions: [],
+            possibly_answers: [],
+            answer_points: [],
+            results: [],
+            results_images: []
+          }
+
+          for (let i = 0; i < this.formZero.slots.length; i++) {
+            datos.questions.push(this.formZero.slots[i].question)
+
+            const answers = []
+            const points = []
+
+            for (let j = 0; j < this.formZero.slots[i].dataAnswers.length; j++) {
+              answers.push(this.formZero.slots[i].dataAnswers[j].answer)
+              points.push(Number(this.formZero.slots[i].dataAnswers[j].pts) || 0)
+            }
+
+            datos.possibly_answers.push(answers)
+            datos.answer_points.push(points)
+          }
+
+          for (let i = 0; i < this.formZero.nfts.length; i++) {
+            datos.results.push(this.formZero.nfts[i].title)
+            datos.results_images.push(this.formZero.nfts[i].url)
+          }
+
+          await contract.create_form(datos,'300000000000000', "11000000000000000000000")
+          .then((response) => {
+            console.log(response)
+            this.$refs.modal.openModal('success')
+          }).catch((error) => {
+            console.log(error)
+          })
+        }
+      }
+    },
+    validateForm() {
+      let title
+      let questions
+      let answer
+      let nfts
+      let urls
+
+      if (this.formZero.title && this.formZero.title !== "") {
+        title = true
+      } else {
+        this.formZero.errorTitle = true
+        title = false
+      }
+
+      for (let i = 0; i < this.formZero.slots.length; i++) {
+        if (this.formZero.slots[i].question && this.formZero.slots[i].question !== "") {
+          if (questions !== false) {
+            questions = true
+          }
+        } else {
+          this.formZero.slots[i].error = true
+          questions = false
+        }
+
+        for (let j = 0; j < this.formZero.slots[i].dataAnswers.length; j++) {
+          if (this.formZero.slots[i].dataAnswers[j].answer && this.formZero.slots[i].dataAnswers[j].answer !== "" && this.formZero.slots[i].dataAnswers[j].pts && this.formZero.slots[i].dataAnswers[j].pts !== "") {
+            if (answer !== false) {
+              answer = true
+            }
+          } else {
+            this.formZero.slots[i].dataAnswers[j].error = true
+            answer = false
+          }
+        }
+      }
+
+      for (let i = 0; i < this.formZero.nfts.length; i++) {
+        if (this.formZero.nfts[i].title && this.formZero.nfts[i].title !== "") {
+          if (nfts !== false) {
+            nfts = true
+          }
+        } else {
+          this.formZero.nfts[i].error = true
+          nfts = false
+        }
+
+        if (this.formZero.nfts[i].url && this.formZero.nfts[i].url !== "" && this.formZero.nfts[i].url.includes('://')) {
+          if (urls !== false) {
+            urls = true
+          }
+        } else {
+          this.formZero.nfts[i].errorUrl = true
+          urls = false
+        }
+      }
+
+      if (title && questions && answer && nfts && urls) {
+        return true
+      }
+      return false
+    },
+    inputTitle() {
+      if (this.formZero.title && this.formZero.title !== "") {
+        this.formZero.errorTitle = false
+      } else {
+        this.formZero.errorTitle = true
+      }
+    },
+    inputQuestion(item) {
+      if (item.question && item.question !== "") {
+        item.error = false
+      } else {
+        item.error = true
+      }
+    },
+    inputAnswer(item) {
+      if (item.answer && item.answer !== "" && item.pts && item.pts !== "") {
+        item.error = false
+      } else {
+        item.error = true
+      }
+    },
+    inputNFT(item) {
+      if (item.title && item.title !== "") {
+        item.error = false
+      } else {
+        item.error = true
+      }
+    },
+    inputURL(item) {
+      if (item.url && item.url !== "" && item.url.includes('://')) {
+        item.errorUrl = false
+      } else {
+        item.errorUrl = true
+      }
     },
     clearWindow() {
       this.mainWindow = true
@@ -413,6 +572,25 @@ export default {
       this.zeroFormWindow = false
       this.editFormWindow = false
       this.statsFormWindow = false
+      this.formZero = {
+        title: undefined,
+        errorTitle: false,
+        slots: [
+          {
+            question: undefined,
+            error: false,
+            dataAnswers: [
+              { answer: undefined, pts: undefined, error: false },
+              { answer: undefined, pts: undefined, error: false },
+              { answer: undefined, pts: undefined, error: false },
+            ]
+          },
+        ],
+        nfts: [
+          { title: undefined, url: undefined, error: false, errorUrl: false },
+          { title: undefined, url: undefined, error: false, errorUrl: false },
+        ],
+      }
     },
     openNewForm() {
       this.clearWindow()
