@@ -2,7 +2,7 @@
   <v-footer id="footer" color="var(--primary)" absolute class="font2">
     <v-row no-gutters class="center">
       <!-- content -->
-      <span>Powered by DV CONSULTORES © 2022</span>
+      <span>Powered by OwlingLabs © 2022</span>
     </v-row>
   </v-footer>
 </template>
