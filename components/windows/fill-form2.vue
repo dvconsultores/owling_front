@@ -8,7 +8,7 @@
     >
       <template #content>
         <div class="divcol center fill tcenter" style="gap: 10px; border: 2px solid var(--accent); padding: 20px">
-          <h4 class="p" style="cursor: default">We invite you to fill in a form</h4>
+          <h4 class="p" style="cursor: default">Wee invite you to fill in a form</h4>
           <v-btn class="btn" style="--w: 167px" @click="fillForm()">next</v-btn>
         </div>
       </template>

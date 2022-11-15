@@ -339,6 +339,7 @@ import customeDrag from '~/mixins/customeDrag'
 
 const {Contract } = nearAPI
 
+
 export default {
   name: "NewFormComponent",
   mixins: [computeds, customeDrag],
@@ -421,7 +422,14 @@ export default {
       }
     },
   },
+  mounted() {
+    this.queryApollo()
+  },
   methods: {
+    queryApollo() {
+
+      console.log(this.$apollo)
+    },
     createForm() {
       if (this.$wallet.isSignedIn()) {
         this.mainWindow = false
@@ -479,7 +487,6 @@ export default {
       }
     },
     validateForm() {
-      console.log("ENTRO")
       let title
       let questions
       let answer
