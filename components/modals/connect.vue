@@ -1,7 +1,41 @@
 <template>
-  <v-dialog v-model="modalConnect" content-class="modal-connect">
-    <v-btn class="btn activeBtn" :ripple="false" @click="$store.commit('signIn', 'near')">near wallet</v-btn>
-    <v-btn class="btn activeBtn" :ripple="false" @click="$store.commit('signIn', 'myNear')">my near wallet</v-btn>
+  <v-dialog v-model="modalConnect" content-class="modal-connect divcol">
+    <aside class="space">
+      <span class="h9_em">Connect Wallet</span>
+      
+      <v-btn icon>
+        <v-icon size="1.5em">mdi-close</v-icon>
+      </v-btn>
+    </aside>
+
+    <v-sheet class="grid" color="transparent">
+      <v-btn plain @click="$store.commit('signIn', 'near')">
+        <img src="~/assets/sources/logos/near-wallet-icon.svg" alt="near">
+        
+        <div class="divcol astart" style="gap: 5px">
+          <span class="h12_em bold">NEAR</span>
+          <span class="h13_em">wallet.near.org</span>
+        </div>
+      </v-btn>
+      
+      <v-btn plain color="hsl(0 0% 0% / .5)" @click="$store.commit('signIn', 'myNear')">
+        <img src="~/assets/sources/logos/my-near-wallet-icon.svg" alt="near">
+        
+        <div class="divcol astart" style="gap: 5px">
+          <span class="h12_em bold">MyNearWallet</span>
+          <span class="h13_em">mynearwallet.com</span>
+        </div>
+      </v-btn>
+      
+      <v-btn plain color="hsl(0 0% 0% / .5)" @click="$store.commit('signIn', 'sender')">
+        <img src="~/assets/sources/logos/sender-icon.svg" alt="near">
+        
+        <div class="divcol astart" style="gap: 5px">
+          <span class="h12_em bold">Sender</span>
+          <span class="h13_em">sender.org</span>
+        </div>
+      </v-btn>
+    </v-sheet>
   </v-dialog>
 </template>
 
@@ -27,17 +61,42 @@ export default {
   --w: max-content;
   --br: 30px;
   --bg: #272727;
-  padding: 40px !important;
+  padding: 30px;
   --tt: capitalize;
-  aspect-ratio: 1 / 1;
-  display: grid;
-  place-items: center;
-  gap: 30px;
+  gap: 20px;
 
-  .v-btn {
-    --fs: 20px;
-    --w: 100%;
-    --min-h: 50px;
+  i {color: hsl(225 225% 225% / .5) !important}
+  span:first-child {
+    --c: #fff;
+  }
+
+  .v-sheet.grid {
+    @include media(min, 500px) {--gtc: 1fr 1fr}
+    gap: 20px;
+    .v-btn {
+      --fs: 20px;
+      --c-size: 8px;
+      width: 100%;
+      min-height: 70px;
+      clip-path: $clip-path;
+      background-color: hsl(0 0% 0% / .2);
+      transition: .2s $ease-return;
+      &:hover {
+        background-color: hsl(0 0% 0% / .4);
+        transform: translateY(-5px) !important;
+      }
+      &__content {
+        justify-content: flex-start;
+        gap: 10px;
+        img {
+          --w: 40px;
+          --of: cover;
+        }
+        span + span {
+          --c: hsl(225 225% 225% / .5);
+        }
+      }
+    }
   }
 }
 </style>
