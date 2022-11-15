@@ -15,7 +15,7 @@
       <template #content>
         <div class="divcol center" style="gap: 20px">
           <img src="~/assets/sources/images/form-img.png" alt="new form image" style="--w: 169px">
-          <v-btn class="btn" style="--w: 164.19px" @click="mainWindow = false; createWindow = true">create</v-btn>
+          <v-btn class="btn" style="--w: 164.19px" @click="createForm()">create</v-btn>
         </div>
       </template>
     </WindowsWindow>
@@ -422,6 +422,14 @@ export default {
     },
   },
   methods: {
+    createForm() {
+      if (this.$wallet.isSignedIn()) {
+        this.mainWindow = false
+        this.createWindow = true
+      } else {
+        return alert("Please login to use this function.")
+      }
+    },
     async save () {
       const CONTRACT_NAME = 'contract.owling.testnet'
       if (this.$wallet.isSignedIn()) {
@@ -471,6 +479,7 @@ export default {
       }
     },
     validateForm() {
+      console.log("ENTRO")
       let title
       let questions
       let answer
@@ -614,9 +623,13 @@ export default {
       }
     },
     openNewForm() {
-      this.clearWindow()
-      this.mainWindow = false
-      this.createWindow = true
+      if (this.$wallet.isSignedIn()) {
+        this.clearWindow()
+        this.mainWindow = false
+        this.createWindow = true
+      } else {
+        return alert("Please login to use this function.")
+      }
     },
     // imgPreview(key, file) {
     //   this[key].nft = file;

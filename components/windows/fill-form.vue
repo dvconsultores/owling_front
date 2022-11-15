@@ -9,7 +9,7 @@
       <template #content>
         <div class="divcol center fill tcenter" style="gap: 10px; border: 2px solid var(--accent); padding: 20px">
           <h4 class="p" style="cursor: default">We invite you to fill in a form</h4>
-          <v-btn class="btn" style="--w: 167px" @click="mainWindow = false; fillFormWindow = true">next</v-btn>
+          <v-btn class="btn" style="--w: 167px" @click="fillForm()">next</v-btn>
         </div>
       </template>
     </WindowsWindow>
@@ -52,6 +52,7 @@
                 :id="`question ${i+1}`" v-model="item.answer" solo
                 label="Type1 your answer here . . ."
                 :error="item.error"
+                @input="inputAnswer(item)"
               ></v-text-field>
 
               <v-select
@@ -62,7 +63,7 @@
                 hide-details solo
                 label="Select answer..."
                 :error="item.error"
-
+                @change="changeSelect(item)"
               ></v-select>
 
               <!-- <v-text-field
@@ -75,16 +76,15 @@
 
               <v-btn
                 v-if="auxBtn"
-                disabled
                 class="btn align" style="--w: 164.19px"
-                @click="nextStep()">
+                @click="nextStep2(item)">
                 {{'next'}}
               </v-btn>
               
               <v-btn
                 v-else
                 class="btn align" style="--w: 164.19px"
-                @click="doneForm()">
+                @click="doneForm(item)">
                 {{'done'}}
               </v-btn>
 
@@ -144,6 +144,7 @@ export default {
   mixins: [computeds, customeDrag],
   data() {
     return {
+      form_id: "1",
       auxBtn: true,
       mainWindow: true,
       fillFormWindow: false,
@@ -184,6 +185,17 @@ export default {
     this.getForm()
   },
   methods: {
+    fillForm() {
+      if (this.$wallet.isSignedIn()) {
+        this.mainWindow = false
+        this.fillFormWindow = true
+      } else {
+        return alert("Please login to use this function.")
+      }
+    },
+    changeSelect(item) {
+      item.error = false
+    }, 
     async getForm () {
       const CONTRACT_NAME = 'contract.owling.testnet'
       if (this.$wallet.isSignedIn()) {
@@ -193,7 +205,7 @@ export default {
         })
 
         await contract.form_by_id({
-          form_id: '1'
+          form_id: this.form_id
         })
         .then((response) => {
           for (let i = 0; i < response.questions.length; i++) {
@@ -202,7 +214,7 @@ export default {
               answer: undefined,
               answers: response.possibly_answers[i],
               type: undefined,
-              error: true
+              error: false
             }
 
             if (response.possibly_answers[i][0] === '') {
@@ -244,9 +256,20 @@ export default {
       this.auxBtn = true
     },
     openFillForm() {
-      this.mainWindow = false
-      this.fillFormWindow = true
-      this.auxBtn = true
+      if (this.$wallet.isSignedIn()) {
+        this.mainWindow = false
+        this.fillFormWindow = true
+        this.auxBtn = true
+      } else {
+        return alert("Please login to use this function.")
+      }
+    },
+    inputAnswer(item) {
+      if (item.answer && item.answer !== '') {
+        item.error = false
+      } else {
+        item.error = true
+      }
     },
     nextStep() {
       if (this.windowStep < this.dataFormFill.length) {
@@ -257,9 +280,51 @@ export default {
         this.auxBtn = false
       }
     },
-    doneForm() {
-      this.fillFormWindow = false
-      this.mintNftWindow = true
+    nextStep2(item) {
+      if (item.answer && item.answer !== '') {
+        if (this.windowStep < this.dataFormFill.length) {
+          this.windowStep++
+          this.auxBtn = true
+        }
+        if (this.windowStep === this.dataFormFill.length) {
+          this.auxBtn = false
+        }
+      } else {
+        item.error = true
+      }
+    },
+    async doneForm(item) {
+      if (item.answer && item.answer !== '') {
+        const CONTRACT_NAME = 'contract.owling.testnet'
+        if (this.$wallet.isSignedIn()) {
+          const contract = new Contract(this.$wallet.account(), CONTRACT_NAME, {
+            changeMethods: ['submit_form'],
+            sender: this.$wallet.account()
+          })
+
+          const datos = []
+
+          for (let i = 0; i < this.dataFormFill.length; i++) {
+            datos.push(this.dataFormFill[i].answer)
+          }
+
+          await contract.submit_form({
+            form_id: this.form_id,
+            answers: datos
+          })
+          .then((response) => {
+            console.log(response)
+          }).catch((error) => {
+            console.log(error)
+          })
+        }
+
+
+        // this.fillFormWindow = false
+        // this.mintNftWindow = true
+      } else {
+        item.error = true
+      }
     },
   },
 };
