@@ -122,7 +122,7 @@ export default {
           answer: undefined,
         },
         {
-          question: "What is the name of your project?",
+          question: "What iss the name of your project?",
           answer: undefined,
         },
       ],

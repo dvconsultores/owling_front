@@ -76,7 +76,7 @@
           <h2 class="p tup">new form - from zero</h2>
           
           <aside class="custome-window--header-controls">
-            <v-btn @click="zeroFormWindow = false; createWindow = true">
+            <v-btn @click="zeroFormWindow = false; createWindow = true; backWindow()">
               <img src="~/assets/sources/icons/back.svg" alt="go back icon">
             </v-btn>
             <v-btn @click="clearWindow()">
@@ -143,7 +143,7 @@
                 <template v-if="i2+1 === item.dataAnswers.length && item.dataAnswers.length > 2" #append>
                   <img
                     :src="require(`~/assets/sources/icons/x.svg`)" alt="delete question icon"
-                    class="pointer"  @click="item.dataAnswers.shift()">
+                    class="pointer"  @click="item.dataAnswers.pop()">
                 </template>
 
                 <template v-if="i2+1 === item.dataAnswers.length && item.dataAnswers.length < 4" #message>
@@ -564,6 +564,27 @@ export default {
         item.errorUrl = false
       } else {
         item.errorUrl = true
+      }
+    },
+    backWindow() {
+      this.formZero = {
+        title: undefined,
+        errorTitle: false,
+        slots: [
+          {
+            question: undefined,
+            error: false,
+            dataAnswers: [
+              { answer: undefined, pts: undefined, error: false },
+              { answer: undefined, pts: undefined, error: false },
+              { answer: undefined, pts: undefined, error: false },
+            ]
+          },
+        ],
+        nfts: [
+          { title: undefined, url: undefined, error: false, errorUrl: false },
+          { title: undefined, url: undefined, error: false, errorUrl: false },
+        ],
       }
     },
     clearWindow() {
