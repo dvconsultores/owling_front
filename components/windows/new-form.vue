@@ -127,6 +127,7 @@
                 class="mt-0"
                 :messages="i2+1 === item.dataAnswers.length && item.dataAnswers.length < 4 ? 'message' : ''"
                 :error="item2.error"
+                @input="inputAnswer(item2)"
               >
                 <template #prepend>
                   <v-text-field
@@ -135,6 +136,7 @@
                     label="pts"
                     class="pts"
                     :error="item2.error"
+                    @input="inputAnswer(item2)"
                   ></v-text-field>
                 </template>
                 
@@ -180,6 +182,7 @@
               label="NFT TITLE"
               style="--fs: 16px; --w: 100px"
               :error="item.error"
+              @input="inputNFT(item)"
             ></v-text-field>
             
             <!-- <v-text-field
@@ -193,6 +196,7 @@
               class="input-nfts"
               style="--fs: 16px"
               :error="item.errorUrl"
+              @input="inputURL(item)"
             >
               <template v-if="previewImg_zero" #append-outer>
                 <img :src="previewImg_zero" alt="nft preview" style="--w: 57.56px; --h: 50px">
@@ -535,12 +539,32 @@ export default {
       }
     },
     inputQuestion(item) {
-      console.log(item)
-      // if (this.formZero.title && this.formZero.title !== "") {
-      //   this.formZero.errorTitle = false
-      // } else {
-      //   this.formZero.errorTitle = true
-      // }
+      if (item.question && item.question !== "") {
+        item.error = false
+      } else {
+        item.error = true
+      }
+    },
+    inputAnswer(item) {
+      if (item.answer && item.answer !== "" && item.pts && item.pts !== "") {
+        item.error = false
+      } else {
+        item.error = true
+      }
+    },
+    inputNFT(item) {
+      if (item.title && item.title !== "") {
+        item.error = false
+      } else {
+        item.error = true
+      }
+    },
+    inputURL(item) {
+      if (item.url && item.url !== "" && item.url.includes('://')) {
+        item.errorUrl = false
+      } else {
+        item.errorUrl = true
+      }
     },
     clearWindow() {
       this.mainWindow = true
