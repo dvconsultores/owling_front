@@ -103,8 +103,11 @@
 </template>
 
 <script>
+import * as nearAPI from 'near-api-js'
 import computeds from '~/mixins/computeds'
 import customeDrag from '~/mixins/customeDrag'
+
+const {Contract } = nearAPI
 
 export default {
   name: "FillFormComponent",
@@ -146,9 +149,30 @@ export default {
     },
   },
   mounted() {
+    this.getForm()
     this.zIndex = this.$store.state.zIndex
   },
   methods: {
+    async getForm () {
+      const CONTRACT_NAME = 'contract.owling.testnet'
+      if (this.$wallet.isSignedIn()) {
+        const contract = new Contract(this.$wallet.account(), CONTRACT_NAME, {
+          changeMethods: ['form_by_id'],
+          sender: this.$wallet.account()
+        })
+
+        await contract.form_by_id({
+          form_id: 1
+        })
+        .then((response) => {
+          console.log(response)
+          console.log(response)
+          this.$refs.modal.openModal('success')
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
+    },
     goBack() {
       if (this.windowStep === 1) {
         this.clearWindow()
