@@ -43,19 +43,46 @@
         <v-window v-model="windowStep">
           <v-window-item v-for="(item, i) in dataFormFill" :key="i" :value="i+1">
             <v-form class="divcol" @submit.prevent="nextStep()">
-              <label :for="`question ${i+1}`" class="mb-4">{{item.question}} 
+              <label :for="`question ${i+1}`" class="mb-4">{{verifyQuestion(item.question)}} 
                 <span style="--c: var(--error)">This question is required*</span>
               </label>
               
               <v-text-field
+                v-if="item.type == 'input'"
                 :id="`question ${i+1}`" v-model="item.answer" solo
-                label="Type your answer here . . ."
+                label="Type1 your answer here . . ."
               ></v-text-field>
+
+              <v-select
+                v-else
+                :id="`question ${i+1}`"
+                v-model="item.answer"
+                :items="item.answers"
+                hide-details solo
+                label="Select answer..."
+                @change="$emit('filterB', filterB_model)"
+              ></v-select>
+
+              <!-- <v-text-field
+                v-else
+                :id="`question ${i+1}`" v-model="item.answer" solo
+                label="Type2 your answer here . . ."
+              ></v-text-field> -->
+
+              
+
+              <v-btn
+                v-if="auxBtn"
+                class="btn align" style="--w: 164.19px"
+                @click="nextStep()">
+                {{'next'}}
+              </v-btn>
               
               <v-btn
+                v-else
                 class="btn align" style="--w: 164.19px"
-                @click="windowStep+1 === dataFormFill.length ? nextStep() : doneForm()">
-                {{windowStep+1 === dataFormFill.length ? 'next' : 'done'}}
+                @click="doneForm()">
+                {{'done'}}
               </v-btn>
 
               <span class="alignr" style="font-size: 14px; --stroke: .5px">{{windowStep}}/{{dataFormFill.length}}</span>
@@ -78,7 +105,7 @@
           
           <aside class="custome-window--header-controls">
             <v-btn
-              @click="mintNftWindow = false; mainWindow = true">
+              @click="mintNftWindow = false; mainWindow = true; auxBtn = true; clearWindow()">
               <img src="~/assets/sources/icons/back.svg" alt="go back icon">
             </v-btn>
             <v-btn @click="clearWindow()">
@@ -114,20 +141,21 @@ export default {
   mixins: [computeds, customeDrag],
   data() {
     return {
+      auxBtn: true,
       mainWindow: true,
       fillFormWindow: false,
       mintNftWindow: false,
       
       windowStep: 1,
       dataFormFill: [
-        {
-          question: "What is the name of your project?",
-          answer: undefined,
-        },
-        {
-          question: "What iss the name of your project?",
-          answer: undefined,
-        },
+        // {
+        //   question: "",
+        //   answer: undefined,
+        // },
+        // {
+        //   question: "",
+        //   answer: undefined,
+        // },
       ],
       nftPreview: require("~/assets/sources/images/nft-preview-2.jpg"),
 
@@ -149,35 +177,58 @@ export default {
     },
   },
   mounted() {
-    this.getForm()
     this.zIndex = this.$store.state.zIndex
+    this.getForm()
   },
   methods: {
     async getForm () {
       const CONTRACT_NAME = 'contract.owling.testnet'
       if (this.$wallet.isSignedIn()) {
         const contract = new Contract(this.$wallet.account(), CONTRACT_NAME, {
-          changeMethods: ['form_by_id'],
+          viewMethods: ['form_by_id'],
           sender: this.$wallet.account()
         })
 
         await contract.form_by_id({
-          form_id: 1
+          form_id: '1'
         })
         .then((response) => {
-          console.log(response)
-          console.log(response)
-          this.$refs.modal.openModal('success')
+          for (let i = 0; i < response.questions.length; i++) {
+            const item = {
+              question: response.questions[i],
+              answer: undefined,
+              answers: response.possibly_answers[i],
+              type: undefined
+            }
+
+            if (response.possibly_answers[i][0] === '') {
+              item.type = 'input'
+            } else {
+              item.type = 'select'
+            }
+
+            this.dataFormFill.push(item)
+          }
+          this.auxBtn = true
         }).catch((error) => {
           console.log(error)
         })
       }
+    },
+    verifyQuestion(item) {
+      if (item.includes('?')) {
+        return item
+      }
+      return item + '?'
     },
     goBack() {
       if (this.windowStep === 1) {
         this.clearWindow()
       } else {
         this.windowStep--
+        if (this.windowStep < this.dataFormFill.length) {
+          this.auxBtn = true
+        }
       }
     },
     clearWindow() {
@@ -186,13 +237,21 @@ export default {
       this.fillFormWindow = false
       this.mintNftWindow = false
       this.mainWindow = true
+      this.auxBtn = true
     },
     openFillForm() {
       this.mainWindow = false
       this.fillFormWindow = true
+      this.auxBtn = true
     },
     nextStep() {
-      if (this.windowStep < this.dataFormFill.length) this.windowStep++
+      if (this.windowStep < this.dataFormFill.length) {
+        this.windowStep++
+        this.auxBtn = true
+      }
+      if (this.windowStep === this.dataFormFill.length) {
+        this.auxBtn = false
+      }
     },
     doneForm() {
       this.fillFormWindow = false
