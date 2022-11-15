@@ -4,7 +4,7 @@
       <!-- <WindowsLogin v-if="login"></WindowsLogin>
       <WindowsAbout ref="about"></WindowsAbout>
       <WindowsNewForm ref="newForm"></WindowsNewForm> -->
-      <WindowsFillForm ref="fillForm"></WindowsFillForm>
+      <WindowsFillForm ref="fillForm2"></WindowsFillForm>
     </div>
   </template>
   

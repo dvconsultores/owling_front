@@ -3,14 +3,18 @@
     <v-toolbar id="navbar" color="transparent" absolute class="isolate" min-height="100%" width="var(--w-navbar)">
       <div v-for="(item, i) in dataNavbar" :key="i">
         <v-btn
+          v-if="item.name === 'Instagram'"
           color="transparent" :ripple="false"
           :class="{openMenuList: item.name === 'menu'}" 
-          v-if="item.name === 'Instagram'" href="https://www.instagram.com/" target="_blank">
+           href="https://www.instagram.com/" target="_blank">
           <img :src="item.img" :alt="`${item.name} icon`" style="--w: 55px">
           <span>{{item.name}}</span>
         </v-btn>
-        <v-btn v-else-if="item.name === 'Twitter'" href="https://twitter.com/?lang=es" target="_blank"
-          color="transparent" :ripple="false"
+        <v-btn v-else-if="item.name === 'Twitter'" 
+          href="https://twitter.com/?lang=es" 
+          target="_blank"
+          color="transparent" 
+          :ripple="false"
           :class="{openMenuList: item.name === 'menu'}" >
           <img :src="item.img" :alt="`${item.name} icon`" style="--w: 55px">
           <span>{{item.name}}</span>
