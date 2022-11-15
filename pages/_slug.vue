@@ -9,6 +9,7 @@
   </template>
   
 <script>
+import CryptoJs from "crypto-js"
 import computeds from '~/mixins/computeds'
   
   export default {
@@ -35,9 +36,14 @@ import computeds from '~/mixins/computeds'
       }
     },
     mounted() {
-        console.log(this.$route.params.slug)
+        this.descryp()
     },
     methods: {
+      descryp(){
+        const descryp = CryptoJs.AES.decrypt(this.form_slug, 'owling')
+        const decryptedData = descryp.toString(CryptoJs.enc.Utf8)
+        console.log(decryptedData)
+      },
       openAbout() {
         this.$store.commit("increaseIndex", document.querySelector("#about #mainWindow"))
         this.$store.commit("increaseIndex", document.querySelector("#about #team"))

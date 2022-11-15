@@ -260,7 +260,7 @@
               v-model="item.url" solo
             >
               <template #append>
-                <img src="~/assets/sources/icons/clip.svg" alt="clip icon">
+                <img src="~/assets/sources/icons/clip.svg" alt="clip icon" @click="copyUrl(item.url)">
               </template>
             </v-text-field>
 
@@ -334,6 +334,8 @@
 
 <script>
 import * as nearAPI from 'near-api-js'
+import gql from 'graphql-tag'
+import CryptoJs from "crypto-js"
 import computeds from '~/mixins/computeds'
 import customeDrag from '~/mixins/customeDrag'
 
@@ -373,18 +375,18 @@ export default {
         ],
       },
       formEdit: [
-        {
-          name: "form 1",
-          url: [],
-        },
-        {
-          name: "form 2",
-          url: [],
-        },
-        {
-          name: "form 3",
-          url: [],
-        },
+        // {
+        //   name: "form 1",
+        //   url: [],
+        // },
+        // {
+        //   name: "form 2",
+        //   url: [],
+        // },
+        // {
+        //   name: "form 3",
+        //   url: [],
+        // },
       ],
     }
   },
@@ -426,9 +428,54 @@ export default {
     this.queryApollo()
   },
   methods: {
-    queryApollo() {
+    copyUrl(item) {
+      navigator.clipboard.writeText(item)
+      // alert("Copied URL");
+    },  
+    async queryApollo() {
+      // const cryp = CryptoJs.AES.encrypt('1', 'owling').toString()
+      // console.log(cryp)
 
-      console.log(this.$apollo)
+      // const descryp = CryptoJs.AES.decrypt(cryp, 'owling')
+      // const decryptedData = descryp.toString(CryptoJs.enc.Utf8)
+      // console.log(decryptedData)
+
+      // const a = CryptoJs.SHA1("1", { outputLength: 224 }).toString();
+      // console.log(a)
+
+      // const b = CryptoJs.SHA3(a, { outputLength: 224 }).toString();
+      // console.log(b)
+
+
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+
+      const ALL_CHARACTERS_QUERY = gql`
+        query ALL_CHARACTERS_QUERY($user_id: String) {
+          forms(first: 1000, where: {creator: $user_id}) {
+            id
+            questions
+            possibly_answers
+            creator
+            fecha
+            results
+            title
+            creation
+          }
+        }
+      `;
+
+      const res = await clientApollo.query({
+        query: ALL_CHARACTERS_QUERY,
+        variables: {user_id: this.$wallet.getAccountId()},
+      })
+
+      for (let i = 0; i < res.data.forms.length; i++) {
+        const item = {
+          name: res.data.forms[i].title,
+          url: window.location.host + window.location.pathname + CryptoJs.AES.encrypt(String(res.data.forms[i].id), 'owling').toString()
+        }
+        this.formEdit.push(item)
+      }
     },
     createForm() {
       if (this.$wallet.isSignedIn()) {
