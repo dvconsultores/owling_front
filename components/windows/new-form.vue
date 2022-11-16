@@ -555,7 +555,6 @@ export default {
     },
   },
   mounted() {
-    this.getGrafic()
     this.queryApollo()
   },
   methods: {

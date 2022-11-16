@@ -175,7 +175,8 @@ export default {
       nftTitle: null,
       nftPreview: require("~/assets/sources/images/nft-preview-2.jpg"),
       nftPoints: null,
-      zIndex: undefined
+      zIndex: undefined,
+      resContract: {}
     }
   },
   watch: {
@@ -370,6 +371,7 @@ export default {
             answers: datos
           })
           .then((response) => {
+            this.resContract = response
             this.nftPreview = response.final_image
             this.nftTitle = response.final_result
             this.nftPoints = response.total_points
