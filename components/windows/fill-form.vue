@@ -63,6 +63,7 @@
                 hide-details solo
                 label="Select answer..."
                 :error="item.error"
+                :menu-props="{offsetY: true}"
                 @change="changeSelect(item)"
               ></v-select>
 
