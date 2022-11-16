@@ -324,14 +324,14 @@
           <v-list-item>
             <v-list-item-title>{{formStats.average}} Average Score</v-list-item-title>
           </v-list-item>
-          
+<!--           
           <v-list-item>
             <v-list-item-title>&#60; 0.1% Conversion Rate</v-list-item-title>
           </v-list-item>
           
           <v-list-item>
             <v-list-item-title>00:00 Avg. Time</v-list-item-title>
-          </v-list-item>
+          </v-list-item> -->
         </v-list>
       </template>
     </WindowsWindow>
@@ -478,7 +478,6 @@ export default {
       }
     },
     async statsForm (item) {
-      console.log(item)
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const ALL_CHARACTERS_QUERY = gql`
         query ALL_CHARACTERS_QUERY($fecha: BigInt, $formId: String) {

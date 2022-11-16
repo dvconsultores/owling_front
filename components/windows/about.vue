@@ -2,15 +2,19 @@
   <div id="about">
     <!-- main window -->
     <WindowsWindow
-      id="mainWindow" bg="var(--secondary)" padding="30px" width="539px" height="420px"
+      id="mainWindow" :show="teamWindow" bg="var(--secondary)" padding="30px" width="539px" height="420px"
       @customeDrag="customeDrag"
     >
       <template #header>
         <div class="center" style="gap: 5px">
-          <v-btn v-for="n in 3" :key="n" class="dots" :class="{active: n === 1}" />
+          <v-btn v-for="n in 3" :key="n" class="dots" :class="{active: n === 1}"/>
         </div>
         
         <h2 class="p tup align">about us</h2>
+
+        <v-btn @click="teamWindow = false">
+          <img src="~/assets/sources/icons/close.svg" alt="close icon">
+        </v-btn>
       </template>
 
       <template #content>
