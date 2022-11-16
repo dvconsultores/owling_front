@@ -8,7 +8,7 @@
     >
       <template #content>
         <div class="divcol center fill tcenter" style="gap: 10px; border: 2px solid var(--accent); padding: 20px">
-          <h4 class="p" style="cursor: default">Wee invite you to fill in a form</h4>
+          <h4 class="p" style="cursor: default">You were invited to fill out a form</h4>
           <v-btn class="btn" style="--w: 167px" @click="fillForm()">next</v-btn>
         </div>
       </template>
@@ -134,6 +134,7 @@
 
 <script>
 import * as nearAPI from 'near-api-js'
+import CryptoJs from "crypto-js"
 import computeds from '~/mixins/computeds'
 import customeDrag from '~/mixins/customeDrag'
 
@@ -144,7 +145,8 @@ export default {
   mixins: [computeds, customeDrag],
   data() {
     return {
-      form_id: "1",
+      form_slug: this.$route.params.slug,
+      form_id: null,
       auxBtn: true,
       mainWindow: true,
       fillFormWindow: false,
@@ -181,10 +183,17 @@ export default {
     },
   },
   mounted() {
+    this.form_id = this.descryp(this.form_slug)
+    console.log("AQUII", this.form_id)
     this.zIndex = this.$store.state.zIndex
     this.getForm()
   },
   methods: {
+    descryp(item){
+      const descryp = CryptoJs.AES.decrypt(item, 'owling')
+      const decryptedData = descryp.toString(CryptoJs.enc.Utf8)
+      return decryptedData
+    },
     fillForm() {
       if (this.$wallet.isSignedIn()) {
         this.mainWindow = false
@@ -248,17 +257,18 @@ export default {
       }
     },
     clearWindow() {
-      this.windowStep = 1
-      this.dataFormFill.forEach(e => {e.answer = undefined})
-      this.fillFormWindow = false
-      this.mintNftWindow = false
-      this.mainWindow = true
+      console.log("FILL2")
+      // this.windowStep = 1
+      // this.dataFormFill.forEach(e => {e.answer = undefined})
+      // this.fillFormWindow = false
+      // this.mintNftWindow = false
+      // this.mainWindow = true
       this.auxBtn = true
     },
     openFillForm() {
       if (this.$wallet.isSignedIn()) {
-        this.mainWindow = false
-        this.fillFormWindow = true
+        // this.mainWindow = false
+        // this.fillFormWindow = true
         this.auxBtn = true
       } else {
         return alert("Please login to use this function.")

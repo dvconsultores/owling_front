@@ -260,7 +260,9 @@
               v-model="item.url" solo
             >
               <template #append>
-                <img src="~/assets/sources/icons/clip.svg" alt="clip icon" @click="copyUrl(item.url)">
+                <button @click="copyUrl(item.url)">
+                  <img src="~/assets/sources/icons/clip.svg" alt="clip icon">
+                </button>
               </template>
             </v-text-field>
 

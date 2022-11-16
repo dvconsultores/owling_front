@@ -36,7 +36,7 @@ import computeds from '~/mixins/computeds'
       }
     },
     mounted() {
-        this.descryp()
+      //  this.descryp()
     },
     methods: {
       descryp(){
