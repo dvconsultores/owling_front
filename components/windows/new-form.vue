@@ -337,7 +337,7 @@
 <script>
 import * as nearAPI from 'near-api-js'
 import gql from 'graphql-tag'
-import CryptoJs from "crypto-js"
+// import CryptoJs from "crypto-js"
 import computeds from '~/mixins/computeds'
 import customeDrag from '~/mixins/customeDrag'
 
@@ -474,7 +474,8 @@ export default {
       for (let i = 0; i < res.data.forms.length; i++) {
         const item = {
           name: res.data.forms[i].title,
-          url: window.location.host + window.location.pathname + CryptoJs.AES.encrypt(String(res.data.forms[i].id), 'owling').toString()
+          url: window.location.host + window.location.pathname + res.data.forms[i].id
+          // url: window.location.host + window.location.pathname + CryptoJs.AES.encrypt(String(res.data.forms[i].id), 'owling').toString()
         }
         this.formEdit.push(item)
       }
@@ -525,7 +526,7 @@ export default {
             datos.results_images.push(this.formZero.nfts[i].url)
           }
 
-          await contract.create_form(datos,'300000000000000', "11000000000000000000000")
+          await contract.create_form(datos,'300000000000000', "30000000000000000000000")
           .then((response) => {
             console.log(response)
             this.$refs.modal.openModal('success')

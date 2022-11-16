@@ -83,6 +83,7 @@ export const mutations = {
   },
   signIn(state, key) {
     const nearWallet = "https://wallet.testnet.near.org"
+    // const myNearWallet = "https://wallet.testnet.near.org"
     const myNearWallet = "https://testnet.mynearwallet.com"
     
     if (key === 'near') {

@@ -146,6 +146,9 @@ export default {
       },
     }
   },
+  mounted() {
+    console.log(this.chartSeries)
+  },
   methods: {
     updateData(timeline) {
       switch (timeline) {

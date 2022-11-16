@@ -20,7 +20,7 @@
     "crypto-js": "^4.1.1",
     "graphql-tag": "^2.12.6",
     "html2canvas": "^1.4.1",
-    "near-api-js": "^1.0.0",
+    "near-api-js": "^0.44.2",
     "nuxt": "^2.15.8",
     "parallax-js": "^3.1.0",
     "vue": "^2.6.14",

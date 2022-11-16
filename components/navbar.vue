@@ -20,6 +20,7 @@
           <span>{{item.name}}</span>
         </v-btn>
         <v-btn v-else
+          :disabled="validateAux"
           color="transparent" :ripple="false"
           :class="{openMenuList: item.name === 'menu'}" >
           <img :src="item.img" :alt="`${item.name} icon`" style="--w: 55px">
@@ -69,6 +70,7 @@ export default {
   mixins: [computeds],
   data() {
     return {
+      validateAux: false,
       dataNavbar: [
         {
           img: require("~/assets/sources/icons/menu.svg"),
@@ -114,7 +116,17 @@ export default {
       }, 100);
     }
   },
+  mounted() {
+    this.validateSlug()
+  },
   methods: {
+    validateSlug() {
+      if (this.$route.params.slug) {
+        this.validateAux = true
+      } else {
+        this.validateAux = false
+      }
+    },
   },
 };
 </script>

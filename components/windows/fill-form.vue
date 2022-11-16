@@ -84,9 +84,15 @@
               
               <v-btn
                 v-else
+                :disabled="doneBtn"
                 class="btn align" style="--w: 164.19px"
                 @click="doneForm(item)">
                 {{'done'}}
+                <v-progress-circular
+                  v-if="doneBtn"
+                  :size="21"
+                  indeterminate
+                ></v-progress-circular>
               </v-btn>
 
               <span class="alignr" style="font-size: 14px; --stroke: .5px">{{windowStep}}/{{dataFormFill.length}}</span>
@@ -121,11 +127,13 @@
 
       <template #content>
         <h4>Thank you for your time</h4>
+        <h4>Result: {{nftTitle}}</h4>
+        <h4>Total Points: {{nftPoints}}</h4>
 
         <img :src="nftPreview" alt="your nft" class="nft-preview">
 
         <aside class="controls center mt-5">
-          <v-btn class="btn2">generate</v-btn>
+          <v-btn class="btn2" @click="generate()">generate</v-btn>
           <v-btn class="btn2">mint</v-btn>
         </aside>
       </template>
@@ -145,11 +153,12 @@ export default {
   mixins: [computeds, customeDrag],
   data() {
     return {
-      form_id: "1",
+      form_id: "4",
       auxBtn: true,
       mainWindow: true,
       fillFormWindow: false,
       mintNftWindow: false,
+      doneBtn: false,
       
       windowStep: 1,
       dataFormFill: [
@@ -162,8 +171,9 @@ export default {
         //   answer: undefined,
         // },
       ],
+      nftTitle: null,
       nftPreview: require("~/assets/sources/images/nft-preview-2.jpg"),
-
+      nftPoints: null,
       zIndex: undefined,
     }
   },
@@ -186,6 +196,14 @@ export default {
     this.getForm()
   },
   methods: {
+    generate() {
+      const a = document.createElement('a');
+      a.download = true;
+      a.target = '_blank';
+      a.href= this.nftPreview;
+
+      a.click()
+    },
     fillForm() {
       if (this.$wallet.isSignedIn()) {
         this.mainWindow = false
@@ -296,10 +314,13 @@ export default {
     },
     async doneForm(item) {
       if (item.answer && item.answer !== '') {
+        this.doneBtn = true
         const CONTRACT_NAME = 'contract.owling.testnet'
+
         if (this.$wallet.isSignedIn()) {
           const contract = new Contract(this.$wallet.account(), CONTRACT_NAME, {
             changeMethods: ['submit_form'],
+            viewMethods: [],
             sender: this.$wallet.account()
           })
 
@@ -314,19 +335,22 @@ export default {
             answers: datos
           })
           .then((response) => {
-            console.log(response)
+            this.nftPreview = response.final_image
+            this.nftTitle = response.final_result
+            this.nftPoints = response.total_points
+            this.fillFormWindow = false
+            this.mintNftWindow = true
+            this.doneBtn = false
           }).catch((error) => {
             console.log(error)
+            this.doneBtn = false
           })
         }
-
-
-        // this.fillFormWindow = false
-        // this.mintNftWindow = true
+        
       } else {
         item.error = true
       }
-    },
+    }
   },
 };
 </script>

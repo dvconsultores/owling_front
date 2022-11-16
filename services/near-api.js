@@ -9,16 +9,17 @@ export default async function NearApi() {
       networkId: "testnet",
       keyStore, 
       nodeUrl: "https://rpc.testnet.near.org",
+      // walletUrl: "https://wallet.testnet.near.org",
       walletUrl: localStorage.getItem("walletUrl"),
       helperUrl: "https://helper.testnet.near.org",
       explorerUrl: "https://explorer.testnet.near.org",
     },
     // connect to NEAR
-    near = await connect(config),
+    near = await connect(config)
     // create wallet connection
-    wallet = new WalletConnection(near);
+    // wallet = new WalletConnection(near);
 
-  Vue.prototype.$wallet = wallet
+  Vue.prototype.$wallet = new WalletConnection(near)
 }
 
 /*   when need buy

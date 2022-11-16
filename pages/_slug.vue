@@ -1,9 +1,10 @@
 <template>
     <div id="home" class="divcol">
       <Navbar></Navbar>
-      <!-- <WindowsLogin v-if="login"></WindowsLogin>
-      <WindowsAbout ref="about"></WindowsAbout>
-      <WindowsNewForm ref="newForm"></WindowsNewForm> -->
+      <WindowsLogin v-if="login"></WindowsLogin>
+      <WindowsAbout v-show="false" ref="about"></WindowsAbout>
+      <WindowsNewForm v-show="false" ref="newForm"></WindowsNewForm>
+      <WindowsFillForm v-show="false" ref="fillForm"></WindowsFillForm>
       <WindowsFillForm2 ref="fillForm2"></WindowsFillForm2>
     </div>
   </template>
@@ -17,7 +18,6 @@ import computeds from '~/mixins/computeds'
     mixins: [computeds],
     validate({ params }) {
         const { slug } = params
-        console.log(slug)
         return slug && typeof slug === 'string'
     },
     data() {
