@@ -268,7 +268,7 @@
 
             <!-- <v-btn class="btn2">Settings</v-btn>
             <v-btn class="btn2" @click="$refs.modal.editFormModal = true">Preview</v-btn> -->
-            <v-btn class="btn2" @click="editFormWindow = false; statsFormWindow = true">Stats</v-btn>
+            <v-btn class="btn2" @click="statsForm(item);editFormWindow = false; statsFormWindow = true">Stats</v-btn>
           </aside>
         </v-sheet>
       </template>
@@ -314,11 +314,15 @@
       <template #content>
         <v-list class="menuList" color="transparent">
           <v-list-item>
-            <v-list-item-title>1 View</v-list-item-title>
+            <v-list-item-title>{{formStats.responses}} Responses</v-list-item-title>
           </v-list-item>
-          
+
           <v-list-item>
-            <v-list-item-title>0 Responses</v-list-item-title>
+            <v-list-item-title>{{formStats.maxpts}} High Score</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title>{{formStats.average}} Average Score</v-list-item-title>
           </v-list-item>
           
           <v-list-item>
@@ -337,6 +341,7 @@
 <script>
 import * as nearAPI from 'near-api-js'
 import gql from 'graphql-tag'
+import moment from 'moment'
 // import CryptoJs from "crypto-js"
 import computeds from '~/mixins/computeds'
 import customeDrag from '~/mixins/customeDrag'
@@ -390,6 +395,11 @@ export default {
         //   url: [],
         // },
       ],
+      formStats: {
+        maxpts: '-',
+        responses: '-',
+        average: '-'
+      }
     }
   },
   watch: {
@@ -435,20 +445,6 @@ export default {
       // alert("Copied URL");
     },  
     async queryApollo() {
-      // const cryp = CryptoJs.AES.encrypt('1', 'owling').toString()
-      // console.log(cryp)
-
-      // const descryp = CryptoJs.AES.decrypt(cryp, 'owling')
-      // const decryptedData = descryp.toString(CryptoJs.enc.Utf8)
-      // console.log(decryptedData)
-
-      // const a = CryptoJs.SHA1("1", { outputLength: 224 }).toString();
-      // console.log(a)
-
-      // const b = CryptoJs.SHA3(a, { outputLength: 224 }).toString();
-      // console.log(b)
-
-
       const clientApollo = this.$apollo.provider.clients.defaultClient
 
       const ALL_CHARACTERS_QUERY = gql`
@@ -473,12 +469,59 @@ export default {
 
       for (let i = 0; i < res.data.forms.length; i++) {
         const item = {
+          id: res.data.forms[i].id,
           name: res.data.forms[i].title,
           url: window.location.host + window.location.pathname + res.data.forms[i].id
           // url: window.location.host + window.location.pathname + CryptoJs.AES.encrypt(String(res.data.forms[i].id), 'owling').toString()
         }
         this.formEdit.push(item)
       }
+    },
+    async statsForm (item) {
+      console.log(item)
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const ALL_CHARACTERS_QUERY = gql`
+        query ALL_CHARACTERS_QUERY($fecha: BigInt, $formId: String) {
+          submitForms(where: {fecha_gte: $fecha, form_id: $formId}, first: 1000) {
+            answers
+            fecha
+            final_image
+            final_result
+            form_id
+            id
+            total_points
+            wallet_id
+          }
+        }
+      `;
+
+      console.log(ALL_CHARACTERS_QUERY)
+
+      const epoch = moment().subtract(24, 'h').valueOf()*1000000
+
+      const res = await clientApollo.query({
+        query: ALL_CHARACTERS_QUERY,
+        variables: {fecha: String(epoch), formId: item.id},
+      })
+
+      const datos = res.data.submitForms
+
+      let maxPts = 0
+      let average = 0
+      for (let i = 0; i < datos.length; i++) {
+        average += Number(datos[i].total_points)
+        if (Number(datos[i].total_points) > maxPts) {
+          maxPts = Number(datos[i].total_points)
+        }
+      }
+
+      if (maxPts !== 0) {
+        this.formStats.maxpts = maxPts
+      }
+      this.formStats.average = (average / datos.length).toFixed(2) 
+      this.formStats.responses = String(datos.length)
+
+      console.log(datos)
     },
     createForm() {
       if (this.$wallet.isSignedIn()) {
