@@ -268,7 +268,7 @@
 
             <!-- <v-btn class="btn2">Settings</v-btn>
             <v-btn class="btn2" @click="$refs.modal.editFormModal = true">Preview</v-btn> -->
-            <v-btn class="btn2" @click="statsForm(item);editFormWindow = false; statsFormWindow = true">Stats</v-btn>
+            <v-btn class="btn2" @click="getGrafic(item);statsForm(item);editFormWindow = false; statsFormWindow = true">Stats</v-btn>
           </aside>
         </v-sheet>
       </template>
@@ -300,7 +300,26 @@
       </template>
 
       <template #content>
-        <ChartsStatsChart></ChartsStatsChart>
+        <div class="charts fill">
+          <v-btn-toggle v-model="selection" class="charts-controls" background-color="transparent" mandatory>
+            <v-btn
+              v-for="item in dataControlsChart" :key="item"
+              @click="updateData(item)">
+              {{item}}
+            </v-btn>
+          </v-btn-toggle>
+          
+          <v-sheet color="var(--secondary)" class="divcol pb-0">
+            <ApexChart
+              ref="chart"
+              width="100%"
+              height="257px"
+              type="line"
+              :options="chartOptions"
+              :series="chartSeries"
+            ></ApexChart>
+          </v-sheet>
+        </div>
       </template>
     </WindowsWindow>
 
@@ -354,6 +373,7 @@ export default {
   mixins: [computeds, customeDrag],
   data() {
     return {
+      formId: null,
       mainWindow: true,
       createWindow: false,
       zeroFormWindow: false,
@@ -399,7 +419,105 @@ export default {
         maxpts: '-',
         responses: '-',
         average: '-'
-      }
+      },
+
+
+      dataControlsChart: ["this week", "this month",],
+      selection: 0,
+      // series
+      chartSeries: [
+        // {
+        //   name: '',
+        //   data: generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 20, {
+        //     min: 10,
+        //     max: 60
+        //   })
+        // },
+      ],
+      // options
+      chartOptions: {
+        defaultLocale: 'en',
+        grid: {
+          show: true,
+        },
+        colors: ["#5803C5"],
+        chart: {
+          stacked: false,
+          toolbar: {
+            show: false,
+            autoSelected: "zoom",
+          },
+        },
+        stroke: {
+          curve: 'smooth',
+          lineCap: 'butt',
+          width: 4.5,
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        markers: {
+          size: 0,
+          style: "hollow",
+          colors: ["#000"],
+          strokeColors: ["#fff"],
+          strokeWidth: 4,
+          hover: {
+            size: 8,
+          },
+        },
+        tooltip: {
+          custom({series, seriesIndex, dataPointIndex, w}) {
+            const
+              [, value] = w.globals.initialSeries[seriesIndex].data[dataPointIndex]
+
+            // const
+            //   [dateEpoch, value] = w.globals.initialSeries[seriesIndex].data[dataPointIndex],
+            //   date = new Date(dateEpoch)
+
+            // const fullDate = (moment(date).format('YYYY-MM-DD'))
+
+            return `<span>Responses: <b>${value}</b></span>`;
+          },
+          marker: {
+            show: false,
+          },
+          style: {
+            fontSize: '11px',
+          },
+        },
+        legend: {
+          show: false,
+          position: 'top',
+          horizontalAlign: "start",
+        },
+        yaxis: {
+          labels: {
+            style: {
+              fontSize: '16px',
+              fontFamily: 'Pixelmix, sans-serif',
+              fontWeight: 800,
+            },
+          }
+        },
+        xaxis: {
+          type: "datetime",
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
+          labels: {
+            style: {
+              fontSize: '16px',
+              fontFamily: 'Pixelmix, sans-serif',
+              fontWeight: 800,
+            },
+          },
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false,
+          }
+        },
+      },
     }
   },
   watch: {
@@ -437,9 +555,94 @@ export default {
     },
   },
   mounted() {
+    this.getGrafic()
     this.queryApollo()
   },
   methods: {
+    updateData(timeline) {
+      switch (timeline) {
+        case 'this week': {
+          this.selection = 0
+          this.getGrafic(this.formId)
+          this.statsForm(this.formId)
+          break
+        }
+        case 'this month': {
+          this.selection = 1
+          this.getGrafic(this.formId)
+          this.statsForm(this.formId)
+          break
+        }
+        default: {
+          this.selection = 2
+          this.getGrafic(this.formId)
+          this.statsForm(this.formId)
+        }
+      }
+    },
+    async getGrafic (item) {
+      this.formId = item
+      const clientApollo = this.$apollo.provider.clients.defaultClient
+      const ALL_CHARACTERS_QUERY = gql`
+        query ALL_CHARACTERS_QUERY($fecha: BigInt, $formId: String) {
+          submitForms(where: {fecha_gte: $fecha, form_id: $formId}, first: 1000) {
+            answers
+            fecha
+            final_image
+            final_result
+            form_id
+            id
+            total_points
+            wallet_id
+          }
+        }
+      `;
+      let num
+      if (this.selection === 0) {
+        num = 7
+      } else if (this.selection === 1) {
+        num = 31
+      }
+
+      const epoch = moment().subtract(num, 'd').valueOf()*1000000
+
+      const res = await clientApollo.query({
+        query: ALL_CHARACTERS_QUERY,
+        variables: {fecha: String(epoch), formId: item.id},
+      })
+
+      const datos = res.data.submitForms
+
+      for (let i = 0; i < datos.length; i++) {
+        datos[i].date = moment(datos[i].fecha/1000000).format('YYYY-MM-DD')
+      }
+
+      const seriesData = [];
+      
+      for (let i = 0; i < num; i++) {
+        const subtract = moment().subtract(i, 'd').valueOf()*1000000
+        const fecha = (moment(subtract/1000000).format('YYYY-MM-DD'))
+        const epochTime = new Date(fecha).valueOf() 
+
+        let contador = 0
+
+        for (let j = 0; j < datos.length; j++) {
+          if (fecha === datos[j].date) {
+            contador = contador + 1
+          }
+        }
+
+        seriesData.push([epochTime, contador]);
+
+      }
+
+      this.chartSeries = [
+        {
+          name: 'Responses',
+          data: seriesData
+        },
+      ]
+    },
     copyUrl(item) {
       navigator.clipboard.writeText(item)
       // alert("Copied URL");
@@ -478,6 +681,12 @@ export default {
       }
     },
     async statsForm (item) {
+      this.formId = item
+      this.formStats = {
+        maxpts: '-',
+        responses: '-',
+        average: '-'
+      }
       const clientApollo = this.$apollo.provider.clients.defaultClient
       const ALL_CHARACTERS_QUERY = gql`
         query ALL_CHARACTERS_QUERY($fecha: BigInt, $formId: String) {
@@ -494,9 +703,14 @@ export default {
         }
       `;
 
-      console.log(ALL_CHARACTERS_QUERY)
+      let num
+      if (this.selection === 0) {
+        num = 7
+      } else if (this.selection === 1) {
+        num = 31
+      }
 
-      const epoch = moment().subtract(24, 'h').valueOf()*1000000
+      const epoch = moment().subtract(num, 'd').valueOf()*1000000
 
       const res = await clientApollo.query({
         query: ALL_CHARACTERS_QUERY,
@@ -517,10 +731,8 @@ export default {
       if (maxPts !== 0) {
         this.formStats.maxpts = maxPts
       }
-      this.formStats.average = (average / datos.length).toFixed(2) 
+      this.formStats.average = (average / datos.length).toFixed(2) || '-'
       this.formStats.responses = String(datos.length)
-
-      console.log(datos)
     },
     createForm() {
       if (this.$wallet.isSignedIn()) {
@@ -570,7 +782,6 @@ export default {
 
           await contract.create_form(datos,'300000000000000', "30000000000000000000000")
           .then((response) => {
-            console.log(response)
             this.$refs.modal.openModal('success')
           }).catch((error) => {
             console.log(error)

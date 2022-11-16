@@ -81,7 +81,7 @@ export default {
       dataAbout: {
         img: require("~/assets/sources/images/welcome-img.jpg"),
         title: "Welcome to",
-        desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s"
+        desc: "We are Owling 🦉 an app to create and submit forms, earn NFTs and make your creativity profitable Create forms, upload your art, make it viral and earn $OWLs Submit forms and reclaim and share your NFT as result."
       },
       dataTeam: [
         {

@@ -50,7 +50,7 @@
               <v-text-field
                 v-if="item.type == 'input'"
                 :id="`question ${i+1}`" v-model="item.answer" solo
-                label="Type1 your answer here . . ."
+                label="Type your answer here . . ."
                 :error="item.error"
                 @input="inputAnswer(item)"
               ></v-text-field>
@@ -133,7 +133,7 @@
 
         <aside class="controls center mt-5">
           <v-btn class="btn2" @click="generate()">generate</v-btn>
-          <v-btn class="btn2">mint</v-btn>
+          <v-btn class="btn2" @click="nftMint()">mint</v-btn>
         </aside>
       </template>
     </WindowsWindow>
@@ -198,6 +198,32 @@ export default {
     this.getForm()
   },
   methods: {
+    async nftMint () {
+      const CONTRACT_NAME = 'nft.owling.testnet'
+      if (this.$wallet.isSignedIn()) {
+        const contract = new Contract(this.$wallet.account(), CONTRACT_NAME, {
+          changeMethods: ['nft_mint'],
+          sender: this.$wallet.account()
+        })
+
+        const datos = {
+          receiver_id: this.$wallet.getAccountId(),
+          token_metadata: {
+            title: this.nftTitle + ' #' + this.nftPoints,
+            description: 'Form ID: ' + this.resContract.form_id,
+            media: this.nftPreview,
+            reference: this.resContract.form_id
+          }
+        }
+
+        await contract.nft_mint(datos,'300000000000000', "30000000000000000000000")
+        .then((response) => {
+          console.log(response)
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
+    },
     generate() {
       const a = document.createElement('a');
       a.download = true;
