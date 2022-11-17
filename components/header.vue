@@ -72,7 +72,7 @@ export default {
       }
       localStorage.tipohash = null
       this.transactionHashes = urlParams.get("transactionHashes")
-      history.replaceState(null, location.href.split("?")[0], '/owling/');
+      history.replaceState(null, location.href.split("?")[0], '/');
     }
   },
   methods: {
