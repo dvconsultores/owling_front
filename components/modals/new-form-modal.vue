@@ -14,7 +14,8 @@
         </template>
         
         <template #content>
-          <img :src="require(`~/assets/sources/images/${globalKey}.png`)" :alt="`${globalKey} image`">
+          <img class="mb-6" :src="require(`~/assets/sources/images/${globalKey}.png`)" :alt="`${globalKey} image`">
+          <h6>Transaction Hash: </h6> <a :href="hash" target="_blank"><h7 style="color:blue !important">{{hash.limitString(40)}}</h7></a> 
         </template>
       </WindowsWindow>
     </v-dialog>
@@ -45,10 +46,17 @@ export default {
   name: "AlertsComponent",
   data() {
     return {
+      hash: null,
       newFormModal: false,
       globalKey: undefined,
       editFormModal: false,
     };
+  },
+  mounted() {
+    const queryString = window.location.search; // tomo mi url
+    const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
+    urlParams.get("transactionHashes") // variable donde esta el hash
+    this.hash = "https://explorer.testnet.near.org/transactions/" + urlParams.get("transactionHashes") // esto es para tener el explorer
   },
   methods: {
     openModal(key) {

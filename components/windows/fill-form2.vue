@@ -3,7 +3,7 @@
     <!-- main window -->
     <WindowsWindow
       v-show="mainWindow" id="mainWindow"
-      width="max-content" height="165px" :styles="`right: 0; bottom: 10%; z-index: ${zIndex}`"
+      width="max-content" height="165px" :styles="`right: 0; bottom: 0; left: 0; top: 0; margin: auto`"
       @customeDrag="customeDrag"
     >
       <template #content>
@@ -18,7 +18,7 @@
     <!-- fill form window -->
     <WindowsWindow
       v-show="fillFormWindow" id="fillFormWindow"
-      width="959px" height="max-content" padding="30px"
+      width="959px" height="max-content" padding="30px" :styles="`right: 0; bottom: 0; left: 0; top: 0; margin: auto`"
       @customeDrag="customeDrag"
     >
       <template #header>
@@ -58,10 +58,12 @@
               <v-select
                 v-else
                 :id="`question ${i+1}`"
+                class="mb-6"
                 v-model="item.answer"
                 :items="item.answers"
                 hide-details solo
                 label="Select answer..."
+                :menu-props="{offsetY: true, zIndex:99999999999999999}"
                 :error="item.error"
                 @change="changeSelect(item)"
               ></v-select>
@@ -105,12 +107,12 @@
     <!-- mint nft form window -->
     <WindowsWindow
       v-show="mintNftWindow" id="mintNftWindow"
-      width="31.25em" height="max-content" padding="30px" styles="top: 0"
+      width="31.25em" height="max-content" padding="30px" :styles="`right: 0; bottom: 0; left: 0; top: 0; margin: auto; z-index: ${zIndex}`"
       @customeDrag="customeDrag"
     >
       <template #header>
         <div class="space fill_w">
-          <h2 class="p tup">fill form</h2>
+          <h2 class="p tup">Congrats! claim your NFT</h2>
           
           <aside class="custome-window--header-controls">
             <v-btn

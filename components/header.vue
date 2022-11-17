@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ModalsNewFormModal ref="modal"></ModalsNewFormModal>
     <v-app-bar id="header" color="transparent" absolute class="isolate">
       <nuxt-link to="/">
         <img src="~/assets/sources/logos/logo.svg" alt="logo" style="--w: clamp(13em, 16vw + 1em, 16.75em)">
@@ -59,6 +60,21 @@ export default {
   //   if (theme === "light") {this.themeButton = true}
   //   else {this.themeButton = false}
   // },
+  mounted() {
+    const queryString = window.location.search; // tomo mi url
+    const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
+    urlParams.get("transactionHashes") // variable donde esta el hash
+    // const hash = "https://explorer.testnet.near.org/transactions/" + urlParams.get("transactionHashes") // esto es para tener el explorer
+
+    if (urlParams.get("transactionHashes") !== null) {
+      if (localStorage.tipohash === 'form') {
+        this.$refs.modal.openModal('success')
+      }
+      localStorage.tipohash = null
+      this.transactionHashes = urlParams.get("transactionHashes")
+      history.replaceState(null, location.href.split("?")[0], '/owling/');
+    }
+  },
   methods: {
     // changeTheme(theme) {
     //   this.$store.commit("switchTheme", theme);

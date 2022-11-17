@@ -1,5 +1,6 @@
 <template>
   <div id="fillForm">
+    <ModalsNewFormModal ref="modal"></ModalsNewFormModal>
     <!-- main window -->
     <WindowsWindow
       v-show="mainWindow" id="mainWindow"
@@ -58,12 +59,13 @@
               <v-select
                 v-else
                 :id="`question ${i+1}`"
+                class="mb-6"
                 v-model="item.answer"
                 :items="item.answers"
                 hide-details solo
                 label="Select answer..."
                 :error="item.error"
-                :menu-props="{offsetY: true}"
+                :menu-props="{offsetY: true, zIndex:99999999999999999}"
                 @change="changeSelect(item)"
               ></v-select>
 
@@ -106,12 +108,12 @@
     <!-- mint nft form window -->
     <WindowsWindow
       v-show="mintNftWindow" id="mintNftWindow"
-      width="31.25em" height="max-content" padding="30px" styles="top: 0"
+      width="31.25em" height="max-content" padding="30px" :styles="`right: 0; bottom: 0; left: 0; top: 0; margin: auto; z-index: ${zIndex + 10}`"
       @customeDrag="customeDrag"
     >
       <template #header>
         <div class="space fill_w">
-          <h2 class="p tup">fill form</h2>
+          <h2 class="p tup">Congrats! claim your NFT</h2>
           
           <aside class="custome-window--header-controls">
             <v-btn
@@ -193,10 +195,14 @@ export default {
     },
   },
   mounted() {
+    // this.alert()
     this.zIndex = this.$store.state.zIndex
     this.getForm()
   },
   methods: {
+    alert() {
+      this.$refs.modal.openModal('success')
+    },
     async nftMint () {
       const CONTRACT_NAME = 'nft.owling.testnet'
       if (this.$wallet.isSignedIn()) {
