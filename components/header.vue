@@ -64,11 +64,12 @@ export default {
     const queryString = window.location.search; // tomo mi url
     const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
     urlParams.get("transactionHashes") // variable donde esta el hash
-    // const hash = "https://explorer.testnet.near.org/transactions/" + urlParams.get("transactionHashes") // esto es para tener el explorer
-
+   
     if (urlParams.get("transactionHashes") !== null) {
       if (localStorage.tipohash === 'form') {
         this.$refs.modal.openModal('success')
+      } else if (localStorage.tipohash === 'mint') {
+        this.$refs.modal.openModal('success-mint')
       }
       localStorage.tipohash = null
       this.transactionHashes = urlParams.get("transactionHashes")

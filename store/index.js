@@ -82,9 +82,9 @@ export const mutations = {
     };
   },
   signIn(state, key) {
-    const nearWallet = "https://wallet.testnet.near.org"
+    const nearWallet = "https://wallet.mainnet.near.org"
     // const myNearWallet = "https://wallet.testnet.near.org"
-    const myNearWallet = "https://testnet.mynearwallet.com"
+    const myNearWallet = "https://mainnet.mynearwallet.com"
     
     if (key === 'near') {
       localStorage.setItem("walletUrl", nearWallet)
@@ -98,7 +98,7 @@ export const mutations = {
     }
     
     window.$nuxt.$wallet.requestSignIn(
-      'contract.owling.testnet'
+      'backend.owlling.near'
     );
   },
   signOut() {

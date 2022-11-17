@@ -202,7 +202,7 @@ export default {
   },
   methods: {
     async nftMint () {
-      const CONTRACT_NAME = 'nft.owling.testnet'
+      const CONTRACT_NAME = 'nft.owlling.near'
       if (this.$wallet.isSignedIn()) {
         const contract = new Contract(this.$wallet.account(), CONTRACT_NAME, {
           changeMethods: ['nft_mint'],
@@ -219,6 +219,7 @@ export default {
           }
         }
 
+        localStorage.tipohash = 'mint'
         await contract.nft_mint(datos,'300000000000000', "30000000000000000000000")
         .then((response) => {
           console.log(response)
@@ -252,7 +253,7 @@ export default {
       item.error = false
     }, 
     async getForm () {
-      const CONTRACT_NAME = 'contract.owling.testnet'
+      const CONTRACT_NAME = 'backend.owlling.near'
       if (this.$wallet.isSignedIn()) {
         const contract = new Contract(this.$wallet.account(), CONTRACT_NAME, {
           viewMethods: ['form_by_id'],
@@ -353,7 +354,7 @@ export default {
     async doneForm(item) {
       if (item.answer && item.answer !== '') {
         this.doneBtn = true
-        const CONTRACT_NAME = 'contract.owling.testnet'
+        const CONTRACT_NAME = 'backend.owlling.near'
 
         if (this.$wallet.isSignedIn()) {
           const contract = new Contract(this.$wallet.account(), CONTRACT_NAME, {

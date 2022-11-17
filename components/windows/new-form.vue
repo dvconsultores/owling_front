@@ -742,7 +742,7 @@ export default {
       }
     },
     async save () {
-      const CONTRACT_NAME = 'contract.owling.testnet'
+      const CONTRACT_NAME = 'backend.owlling.near'
       if (this.$wallet.isSignedIn()) {
         if (this.validateForm()) {
           const contract = new Contract(this.$wallet.account(), CONTRACT_NAME, {

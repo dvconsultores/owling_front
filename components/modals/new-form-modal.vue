@@ -56,7 +56,7 @@ export default {
     const queryString = window.location.search; // tomo mi url
     const urlParams = new URLSearchParams(queryString); // tomo los paramtros de url
     urlParams.get("transactionHashes") // variable donde esta el hash
-    this.hash = "https://explorer.testnet.near.org/transactions/" + urlParams.get("transactionHashes") // esto es para tener el explorer
+    this.hash = "https://explorer.mainnet.near.org/transactions/" + urlParams.get("transactionHashes") // esto es para tener el explorer
   },
   methods: {
     openModal(key) {
