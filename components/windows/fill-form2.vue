@@ -304,7 +304,7 @@ export default {
       }
     },
     clearWindow() {
-      history.replaceState(null, location.href, '/owling/');
+      history.replaceState(null, location.href, '/');
       location.reload()
       // this.windowStep = 1
       // this.dataFormFill.forEach(e => {e.answer = undefined})
