@@ -155,7 +155,7 @@ export default {
   mixins: [computeds, customeDrag],
   data() {
     return {
-      form_id: "4",
+      form_id: "2",
       auxBtn: true,
       mainWindow: true,
       fillFormWindow: false,
