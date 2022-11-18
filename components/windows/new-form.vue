@@ -779,7 +779,7 @@ export default {
             datos.results_images.push(this.formZero.nfts[i].url)
           }
           localStorage.tipohash = 'form'
-          await contract.create_form(datos,'300000000000000', "90000000000000000000000")
+          await contract.create_form(datos,'300000000000000', "30000000000000000000000")
           .then((response) => {
             this.$refs.modal.openModal('success')
           }).catch((error) => {
